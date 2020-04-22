@@ -549,7 +549,7 @@ void *makeValidatorFromIStreams(std::istream &domain, std::istream &problem,
   // RobustDist robustDist = UNIFORM;
 
   string s;
-  bool ganttObjectsGot = false;
+  // bool ganttObjectsGot = false;
   // cout << "Creating a lexer for the domain\n";
   yfl = new yyFlexLexer(&domain, &cout);
 
@@ -573,14 +573,14 @@ void *makeValidatorFromIStreams(std::istream &domain, std::istream &problem,
   TypeChecker *tc = new TypeChecker(current_analysis);
   // cout << "Ready to typecheck domain\n";
   Verbose = false;
-  bool typesOK = tc->typecheckDomain();
+  tc->typecheckDomain();
   // cout << "Now ready to look at problem\n";
   yfl = new yyFlexLexer(&problem, &cout);
   yyparse();
   // cout << "Parsed that\n";
   delete yfl;
   // cout << "Cleaned up\n";
-  typesOK = tc->typecheckProblem();
+  tc->typecheckProblem();
 
   SimulatorValidator *sv =
       (SimulatorValidator *)makeValidator(current_analysis, tol, tc);

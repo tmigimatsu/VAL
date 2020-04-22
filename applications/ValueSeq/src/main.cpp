@@ -259,7 +259,7 @@ class PlanProcessor : public VisitController {
     int c = 0;
     double val;
     double val1;
-    double t;
+    // double t;
     double printt;
     for (vector< string >::const_iterator s = store.begin(); s != store.end();
          ++s, ++c) {

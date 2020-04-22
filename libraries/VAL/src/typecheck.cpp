@@ -107,7 +107,7 @@ namespace VAL {
   };
 
   bool TypeChecker::isLeafType(const pddl_type *t) {
-    typedef set< const TypeRef * > Nodes;
+    // typedef set< const TypeRef * > Nodes;
     PTypeRef pt(t);
     return th.leaves(pt).empty();
   };
