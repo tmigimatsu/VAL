@@ -213,7 +213,7 @@ void executePlans(int &argc, char *argv[], int &argcount, TypeChecker &tc,
             if (!Silent && !LaTeX) *report << "Plan valid\n";
             if (LaTeX) *report << "\\\\\n";
             if (!Silent && !LaTeX) *report << "Final value: ";
-            if (Silent > 1 || (!Silent && !LaTeX)) {
+            if ((!Silent && !LaTeX)) {
               vector< double > vs(pr.getValidator().finalValue());
               for (unsigned int i = 0; i < vs.size(); ++i)
                 *report << vs[i] << " ";
@@ -232,20 +232,16 @@ void executePlans(int &argc, char *argv[], int &argcount, TypeChecker &tc,
                 *report << vs[i] << " ";
               *report << "\n";
             };
-            if (Silent > 1) {
-              *report << "failed\n";
-            }
           };
           if (Verbose) {
             pr.getValidator().reportViolations();
           };
         } else {
           failed.push_back(name);
-          if (Silent < 2) *report << "Goal not satisfied\n";
-          if (Silent > 1) *report << "failed\n";
+          *report << "Goal not satisfied\n";
 
           if (LaTeX) *report << "\\\\\n";
-          if (Silent < 2) *report << "Plan invalid\n";
+          *report << "Plan invalid\n";
           ++errorCount;
         };
 
@@ -256,32 +252,27 @@ void executePlans(int &argc, char *argv[], int &argcount, TypeChecker &tc,
           if (LaTeX)
             *report << "\nPlan failed to execute - checking goal\\\\\n";
           else {
-            if (Silent < 2)
-              *report << "\nPlan failed to execute - checking goal\n";
-            if (Silent > 1) *report << "failed\n";
+            *report << "\nPlan failed to execute - checking goal\n";
           }
           if (!pr.getValidator().checkGoal(
                   current_analysis->the_problem->the_goal))
             *report << "\nGoal not satisfied\n";
 
         } else {
-          if (Silent < 2) *report << "\nPlan failed to execute\n";
-          if (Silent > 1) *report << "failed\n";
+          *report << "\nPlan failed to execute\n";
         }
       };
 
       if (pr.getValidator().hasInvariantWarnings()) {
         if (LaTeX)
           *report << "\\\\\n\\\\\n";
-        else if (Silent < 2)
-          *report << "\n\n";
+        *report << "\n\n";
 
         *report << "This plan has the following further condition(s) to check:";
 
         if (LaTeX)
           *report << "\\\\\n\\\\\n";
-        else if (Silent < 2)
-          *report << "\n\n";
+        *report << "\n\n";
 
         pr.getValidator().displayInvariantWarnings();
       };
@@ -293,7 +284,7 @@ void executePlans(int &argc, char *argv[], int &argcount, TypeChecker &tc,
         *report << "\\end{tabbing}\n";
         *report << "Error occurred in validation attempt:\\\\\n  " << e.what()
                 << "\n";
-      } else if (Silent < 2)
+      } else
         *report << "Error occurred in validation attempt:\n  " << e.what()
                 << "\n";
 
