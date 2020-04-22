@@ -717,8 +717,8 @@ LPCSTR *finalState(LPCSTR domainContent, LPCSTR problemContent, LPCSTR *actions,
     vld->executeNext();  // Ignore whether this executed OK?
   }
 
-  static char *s = "=";
-  static char *pred = "predicate:";
+  static const char *s = "=";
+  static const char *pred = "predicate:";
   int k;
   unsigned long *chlits = vld->getChangedLits(k);
   vector< LPCSTR > bits;
@@ -748,7 +748,7 @@ LPCSTR *finalState(LPCSTR domainContent, LPCSTR problemContent, LPCSTR *actions,
   }
   cleanStore(chlits);
 
-  static char *func = "function:";
+  static const char *func = "function:";
 
   unsigned long *chfuns = vld->getChangedFuns(k);  // assume I can reuse this
                                                    // int
