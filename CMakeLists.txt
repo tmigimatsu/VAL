@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -17,7 +17,7 @@ else()
 endif()
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-project (Val)
+project (Val VERSION 1.0.0 LANGUAGES CXX)
 
 get_filename_component(APPLICATIONS_DIR applications ABSOLUTE)
 
@@ -312,3 +312,60 @@ else()
 endif()
 set (CPACK_PACKAGE_VERSION "$ENV{BUILD_BUILDNUMBER}")
 include (CPack)
+
+file(GLOB_RECURSE LIBRARY_VAL_HEADERS ${LIBRARY_VAL_INCLUDE_DIR}/*.h)
+file(COPY ${LIBRARY_VAL_HEADERS} DESTINATION ${CMAKE_BINARY_DIR}/include/VAL)
+target_include_directories(VAL
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
+)
+
+# Use GNUInstalDirs to install ibraries into correct locations on all platforms
+include(GNUInstallDirs)
+
+set(LIB_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/VAL)
+
+# Install the library
+install(TARGETS VAL
+    EXPORT VALTargets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+# Install the headers
+install(DIRECTORY ${LIBRARY_VAL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Export targets to Targets.cmake
+install(EXPORT VALTargets
+    DESTINATION ${LIB_CONFIG_INSTALL_DIR}
+    NAMESPACE VAL::
+    FILE VALTargets.cmake
+)
+
+# Create ConfigVersion.cmake
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(${CMAKE_BINARY_DIR}/VALConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+# Create Config.cmake
+configure_package_config_file(cmake/VALConfig.cmake.in
+    ${CMAKE_BINARY_DIR}/VALConfig.cmake
+    INSTALL_DESTINATION ${LIB_CONFIG_INSTALL_DIR})
+
+# Install config script files
+install(FILES
+    ${CMAKE_BINARY_DIR}/VALConfig.cmake
+    ${CMAKE_BINARY_DIR}/VALConfigVersion.cmake
+    DESTINATION ${LIB_CONFIG_INSTALL_DIR}
+)
+
+# Export for build tree
+export(TARGETS VAL
+    NAMESPACE VAL::
+    FILE ${CMAKE_BINARY_DIR}/VALTargets.cmake)
+
+# Register package in user registry
+export(PACKAGE VAL)
