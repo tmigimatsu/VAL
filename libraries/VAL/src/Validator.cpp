@@ -961,7 +961,7 @@ namespace VAL {
         *report << theplan << "\n";
       else
         cout << "Plan to validate:\n\n" << theplan << "\n";
-    } catch (BadAccessError) {
+    } catch (const BadAccessError& err) {
       // ok here just listing the actions....!
     }
   };

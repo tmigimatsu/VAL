@@ -724,7 +724,7 @@ namespace VAL {
             (theAns.intervals.begin()->second.first == endOfInterval))
           return true;
       };
-    } catch (InvariantDisjError ide) {
+    } catch (const InvariantDisjError& ide) {
       if (InvariantWarnings) {
         if (LaTeX)
           s->getValidator()->addInvariantWarning(
