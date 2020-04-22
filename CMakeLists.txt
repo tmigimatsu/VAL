@@ -245,7 +245,7 @@ endif()
 
 # Validate
 set(VALIDATE_SOURCE_FILES
-    ${APPLICATIONS_DIR}/Validate/src/main.cpp)    
+    ${APPLICATIONS_DIR}/Validate/src/main.cpp)
 add_executable(Validate ${VALIDATE_SOURCE_FILES})
 target_link_libraries(Validate VAL)
 if( ${VERIFY_SYMBOLS} )
@@ -304,7 +304,7 @@ endif()
 # Configuration of CPack
 include (InstallRequiredSystemLibraries)
 if( WIN32 )
-    set(CPACK_GENERATOR "ZIP")    
+    set(CPACK_GENERATOR "ZIP")
     SET(CPACK_SOURCE_GENERATOR "ZIP")
 else()
     set(CPACK_GENERATOR "ZIP;TGZ")
