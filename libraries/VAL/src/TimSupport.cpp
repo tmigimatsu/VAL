@@ -1168,6 +1168,12 @@ namespace TIM {
     TI pit;
     TI terminus;
 
+    typedef typename TI::value_type value_type;
+    typedef std::ptrdiff_t difference_type;
+    typedef typename TI::pointer pointer;
+    typedef typename TI::reference reference;
+    typedef std::input_iterator_tag iterator_category;
+
     getConditionally(bool c, Property *p, TI pt, TI term)
         : cond(c), prop(p), pit(pt), terminus(term) {
       while (pit != terminus && (c ? (*pit == prop) : (*pit != prop))) ++pit;
