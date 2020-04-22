@@ -14,7 +14,7 @@ using namespace std;
 
 void assertFV(void *vld, vector< string > &wds, double v) {
   LPCSTR *wdsC = new LPCSTR[wds.size()];
-  for (int i = 0; i < wds.size(); ++i) {
+  for (size_t i = 0; i < wds.size(); ++i) {
     wdsC[i] = wds[i].c_str();
   }
   unsigned long x = getFunCode(vld, wdsC);
@@ -24,7 +24,7 @@ void assertFV(void *vld, vector< string > &wds, double v) {
 
 void assertLV(void *vld, vector< string > &wds, bool b) {
   LPCSTR *wdsC = new LPCSTR[wds.size()];
-  for (int i = 0; i < wds.size(); ++i) {
+  for (size_t i = 0; i < wds.size(); ++i) {
     wdsC[i] = wds[i].c_str();
   }
   unsigned long x = getLitCode(vld, wdsC);
@@ -234,12 +234,12 @@ int main(int argc, char *argv[]) {
           wds.push_back(s);
           // cout << "Test " << wds[0] << "\n";
           LPCSTR *tmplit = new LPCSTR[wds.size()];
-          for (int i = 0; i < wds.size(); ++i) {
+          for (size_t i = 0; i < wds.size(); ++i) {
             tmplit[i] = wds[i].c_str();
           }
           if (queryLiteralNamed(vld, tmplit)) {
             ss << "    (";
-            for (int i = 0; i < wds.size(); ++i) {
+            for (size_t i = 0; i < wds.size(); ++i) {
               ss << wds[i];
               if (i < wds.size() - 1) ss << " ";
             }
@@ -374,11 +374,11 @@ int main(int argc, char *argv[]) {
           wds.push_back(s);
           // cout << "Test " << wds[0] << "\n";
           LPCSTR *tmpfun = new LPCSTR[wds.size()];
-          for (int i = 0; i < wds.size(); ++i) {
+          for (size_t i = 0; i < wds.size(); ++i) {
             tmpfun[i] = wds[i].c_str();
           }
           ss << "    (= (";
-          for (int i = 0; i < wds.size(); ++i) {
+          for (size_t i = 0; i < wds.size(); ++i) {
             ss << wds[i];
             if (i < wds.size() - 1) ss << " ";
           }

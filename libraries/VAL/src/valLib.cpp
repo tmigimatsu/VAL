@@ -120,10 +120,10 @@ class ValuesTracker : public StateObserver {
   int getNumValues(const FuncExp *fe) { return allValues[fe].size(); }
   double getNextValue(const FuncExp *fe, double &t, int &n) {
     // cout << "Got " << allValues[fe].size() << " values stored\n";
-    if (n < allValues[fe].size()) {
+    if (n < (int)allValues[fe].size()) {
       t = allValues[fe][n].first;
       double ret = allValues[fe][n].second;
-      if (++n >= allValues[fe].size()) n = -1;
+      if (++n >= (int)allValues[fe].size()) n = -1;
       return ret;
     }
     n = -1;
@@ -159,7 +159,7 @@ class SimulatorValidator {
     State::addObserver(&ad);
   };
   ~SimulatorValidator() {
-    for (int i = 0; i < allocated.size(); ++i) {
+    for (size_t i = 0; i < allocated.size(); ++i) {
       delete[] allocated[i];
     }
   }
@@ -706,7 +706,7 @@ LPCSTR *finalState(LPCSTR domainContent, LPCSTR problemContent, LPCSTR *actions,
       vals.push_back(s);
     }
     LPCSTR *actBits = new LPCSTR[vals.size()];
-    for (int j = 0; j < vals.size(); ++j) {
+    for (size_t j = 0; j < vals.size(); ++j) {
       actBits[j] = vld->strAlloc(vals[j]);
     }
 

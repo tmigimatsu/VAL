@@ -103,7 +103,7 @@ class PlanBit {
       }
 
       post(vld, act, nm, true, p->start_time);
-      for (int i = 0; i <= p->params->size(); ++i) {
+      for (size_t i = 0; i <= p->params->size(); ++i) {
         delete[] nm[i];
       }
       delete[] nm;
@@ -130,11 +130,11 @@ class PlanBit {
         o << " " << (*i)->getName();
       }
 
-      for (int i = 0; i < before.size(); ++i) {
+      for (size_t i = 0; i < before.size(); ++i) {
         o << ", " << before[i];
       }
     } else {
-      for (int i = 0; i < after.size(); ++i) {
+      for (size_t i = 0; i < after.size(); ++i) {
         o << ", " << after[i];
       }
     }

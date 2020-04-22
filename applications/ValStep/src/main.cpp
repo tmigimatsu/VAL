@@ -108,7 +108,7 @@ class PlanBit {
       }
 
       post(vld, act, nm, true, p->start_time);
-      for (int i = 0; i <= p->params->size(); ++i) {
+      for (size_t i = 0; i <= p->params->size(); ++i) {
         delete[] nm[i];
       }
       delete[] nm;
