@@ -2670,8 +2670,8 @@ namespace VAL {
        qf->getVars()->end();++i)
             {
             */
-    auto_ptr< WriteController > w(parse_category::recoverWriteController());
-    auto_ptr< WriteController > p(new PrettyPrinter());
+    shared_ptr< WriteController > w(parse_category::recoverWriteController());
+    shared_ptr< WriteController > p(new PrettyPrinter());
     parse_category::setWriteController(p);
     o << *qg << "\n";
     parse_category::setWriteController(w);

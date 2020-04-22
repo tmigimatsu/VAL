@@ -13,14 +13,14 @@
 
 namespace VAL {
 
-  auto_ptr< WriteController > parse_category::wcntr =
-      auto_ptr< WriteController >(new DebugWriteController);
+  shared_ptr< WriteController > parse_category::wcntr =
+      shared_ptr< WriteController >(new DebugWriteController);
 
   WriteController *parse_category::recoverWriteController() {
-    return wcntr.release();
+    return wcntr.get();
   };
 
-  void parse_category::setWriteController(auto_ptr< WriteController > w) {
+  void parse_category::setWriteController(shared_ptr< WriteController > w) {
     wcntr = w;
   };
 

@@ -7,7 +7,7 @@
 #include "State.h"
 #include <memory>
 
-using std::auto_ptr;
+using std::shared_ptr;
 
 namespace VAL {
 
@@ -148,19 +148,19 @@ namespace VAL {
 
   class ErrorLog {
    private:
-    static auto_ptr< UnsatConditionFactory > fac;
+    static shared_ptr< UnsatConditionFactory > fac;
 
     vector< const UnsatCondition * > conditions;
 
    public:
     template < typename Fac >
     static void replace() {
-      auto_ptr< Fac > f(new Fac);
+      shared_ptr< Fac > f(new Fac);
       fac = f;
     };
     template < typename Fac >
     static void replace(Fac *f) {
-      auto_ptr< Fac > nf(f);
+      shared_ptr< Fac > nf(f);
       fac = nf;
     };
     ErrorLog(){};

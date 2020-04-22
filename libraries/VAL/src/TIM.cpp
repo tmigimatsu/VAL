@@ -52,7 +52,7 @@ namespace TIM {
     current_analysis->const_tab.replaceFactory< TIMobjectSymbol >();
     current_analysis->op_tab.replaceFactory< TIMactionSymbol >();
     current_analysis->setFactory(new TIMfactory());
-    auto_ptr< EPSBuilder > eps(new specEPSBuilder< TIMpredSymbol >());
+    shared_ptr< EPSBuilder > eps(new specEPSBuilder< TIMpredSymbol >());
     Associater::buildEPS = eps;
 
     istream *current_in_stream;

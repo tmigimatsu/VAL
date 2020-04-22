@@ -7,7 +7,7 @@
 
 namespace VAL {
 
-  auto_ptr< UnsatConditionFactory > ErrorLog::fac(new UnsatConditionFactory);
+  shared_ptr< UnsatConditionFactory > ErrorLog::fac(new UnsatConditionFactory);
 
   string UnsatCondition::getAdviceString() const {
     string ans;

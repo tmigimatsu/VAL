@@ -2079,7 +2079,7 @@ namespace Inst {
       }
     }
 
-    auto_ptr< PDCIterator > options(pdc.getIterator());
+    shared_ptr< PDCIterator > options(pdc.getIterator());
 
     while (options->isValid()) {
       for (int x = 0; x < opParamCount; ++x) {
@@ -2187,7 +2187,7 @@ namespace Inst {
       }
     }
 
-    auto_ptr< PDCIterator > options(pdc.getIterator());
+    shared_ptr< PDCIterator > options(pdc.getIterator());
 
     while (options->isValid()) {
       for (int x = 0; x < opParamCount; ++x) {
