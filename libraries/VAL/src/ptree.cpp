@@ -517,6 +517,15 @@ namespace VAL {
 
   void action::write(ostream &o) const { wcntr->write_action(o, this); };
 
+  void axiom::display(int ind) const {
+    TITLE(axiom);
+    FIELD(parameters);
+    FIELD(precondition);
+    FIELD(effects);
+  }
+
+  void axiom::write(ostream &o) const { wcntr->write_axiom(o, this); };
+
   void event::display(int ind) const {
     TITLE(event);
     FIELD(name);
@@ -692,6 +701,7 @@ namespace VAL {
     if (flags & E_CONSTRAINTS) result += ":constraints ";
     if (flags & E_TIME) result += ":time ";
     if (flags & E_SUPPLYDEMAND) result += ":supply-demand ";
+    if (flags & E_DOMAIN_AXIOMS) result += ":domain-axioms ";
     return result;
   }
 
@@ -843,6 +853,7 @@ namespace VAL {
   };
   void operator_::visit(VisitController *v) const { v->visit_operator_(this); };
   void action::visit(VisitController *v) const { v->visit_action(this); };
+  void axiom::visit(VisitController *v) const { v->visit_axiom(this); };
   void event::visit(VisitController *v) const { v->visit_event(this); };
   void process::visit(VisitController *v) const { v->visit_process(this); };
   void durative_action::visit(VisitController *v) const {

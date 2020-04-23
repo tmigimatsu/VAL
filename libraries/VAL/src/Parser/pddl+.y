@@ -118,6 +118,7 @@ using namespace VAL;
     structure_store* t_structure_store;
 
     action* t_action_def;
+    axiom* t_axiom_def;
     event* t_event_def;
     process* t_process_def;
     durative_action* t_durative_action_def;
@@ -190,6 +191,7 @@ using namespace VAL;
 %type <t_structure_def> c_structure_def
 %type <t_class_def> c_class_def
 %type <t_action_def> c_action_def
+%type <t_axiom_def> c_axiom_def
 %type <t_event_def> c_event_def
 %type <t_process_def> c_process_def
 %type <t_durative_action_def> c_durative_action_def c_da_def_body
@@ -240,6 +242,7 @@ using namespace VAL;
        ALWAYS SOMETIME WITHIN ATMOSTONCE SOMETIMEAFTER SOMETIMEBEFORE
        ALWAYSWITHIN HOLDDURING HOLDAFTER ISVIOLATED AFTER
        BOGUS CONTROL SUPPLYDEMAND SUPPLYDEMAND_REQ NAMETAG
+       AXIOM DOMAIN_AXIOMS
 
 
 %token <cp> NAME FUNCTION_SYMBOL
@@ -1220,6 +1223,7 @@ c_structure_defs :
 
 c_structure_def :
     c_action_def          { $$= $1; }
+|   c_axiom_def           { $$= $1; requires(E_DOMAIN_AXIOMS); }
 |   c_event_def           { $$= $1; requires(E_TIME); }
 |   c_process_def         { $$= $1; requires(E_TIME); }
 |   c_durative_action_def { $$= $1; requires(E_DURATIVE_ACTIONS); }
@@ -1265,6 +1269,23 @@ c_action_def :
 |   OPEN_BRAC ACTION error CLOSE_BRAC
 	{yyerrok;
 	 log_error(E_FATAL,"Syntax error in action declaration.");
+	 $$= NULL; }
+;
+
+c_axiom_def :
+    OPEN_BRAC
+    AXIOM
+    c_args_head OPEN_BRAC c_typed_var_list
+    CLOSE_BRAC
+    PRE c_pre_goal_descriptor
+    EFFECTS c_effect
+    CLOSE_BRAC
+    { $$= current_analysis->buildAxiom(current_analysis->axiom_list.new_symbol(),
+			$5,$8,$10,
+			current_analysis->var_tab_stack.pop()); }
+|   OPEN_BRAC AXIOM error CLOSE_BRAC
+	{yyerrok;
+	 log_error(E_FATAL,"Syntax error in axiom declaration.");
 	 $$= NULL; }
 ;
 
@@ -1410,6 +1431,7 @@ c_require_key :
 
    | QUANT_PRECS {$$= E_EXT_PRECS |
 		      E_UNIV_PRECS;}
+   | DOMAIN_AXIOMS { $$= E_DOMAIN_AXIOMS; }
 
    | DURATION_INEQUALITIES
                  {$$= E_DURATION_INEQUALITIES;}

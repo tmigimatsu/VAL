@@ -135,6 +135,11 @@ at_time "at"{whitespace}{float}
 ":" {return COLON;}
 "." {return DOT;}
 ":modules" {return MODULES;}
+":axiom" {return AXIOM;}
+":vars" {return ARGS;}
+":context" {return PRE;}
+":implies" {return EFFECTS;}
+":domain-axioms" {return DOMAIN_AXIOMS;}
 
 {at_time} {unsigned int i;
            for(i = 3;i < strlen(yytext);++i)

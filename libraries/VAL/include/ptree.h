@@ -97,6 +97,7 @@ namespace VAL {
   class structure_def;
   class operator_;
   class action;
+  class axiom;
   class event;
   class process;
   class durative_action;
@@ -151,6 +152,8 @@ namespace VAL {
   };
   template < class symbol_class >
   class typed_symbol_list;
+  template < class symbol_class >
+  class symbol_list;
 
   /*---------------------------------------------------------------------------
     PDDL requirements flags
@@ -180,7 +183,8 @@ namespace VAL {
     E_OFLUENTS = 131072,
     E_ACTIONCOSTS = 262144,
     E_MODULES = 524288,
-    E_SUPPLYDEMAND = 1048576
+    E_SUPPLYDEMAND = 1048576,
+    E_DOMAIN_AXIOMS = 2097152
     // Attributes which are defined as combinations of others
     // are expanded by parser, and don't need to be included here.
   };
@@ -501,6 +505,29 @@ namespace VAL {
   typedef typed_symbol_list< parameter_symbol > parameter_symbol_list;
   typedef typed_symbol_list< const_symbol > const_symbol_list;
   typedef typed_symbol_list< pddl_type > pddl_type_list;
+
+  template < class symbol_class >
+  class symbol_list : public list< symbol_class* > {
+   private:
+    typedef list< symbol_class* > _Base;
+
+   public:
+    typedef typename _Base::iterator iterator;
+    typedef typename _Base::const_iterator const_iterator;
+
+    symbol_class* new_symbol() {
+      // add new symbol
+      symbol_class* sym = new symbol_class("");
+      this->push_back(sym);
+      return (sym);
+    }
+
+    virtual ~symbol_list(){
+      for (iterator i = _Base::begin(); i != _Base::end(); ++i)
+        delete *i;
+    };
+  };
+  typedef symbol_list< operator_symbol > operator_symbol_list;
 
   /*----------------------------------------------------------------------------
     Symbols
@@ -1489,6 +1516,17 @@ namespace VAL {
     virtual void visit(VisitController* v) const;
   };
 
+  class axiom : public operator_ {
+   public:
+    axiom(operator_symbol* nm, var_symbol_list* ps, goal* pre,
+           effect_lists* effs, var_symbol_table* st)
+        : operator_(nm, ps, pre, effs, st){};
+    virtual ~axiom(){};
+    virtual void display(int ind) const;
+    virtual void write(ostream& o) const;
+    virtual void visit(VisitController* v) const;
+  };
+
   class event : public operator_ {
    public:
     event(operator_symbol* nm, var_symbol_list* ps, goal* pre,
@@ -1744,6 +1782,11 @@ namespace VAL {
                                 var_symbol_table* st) {
       return new action(nm, ps, pre, effs, st);
     };
+    virtual axiom* buildAxiom(operator_symbol* nm, var_symbol_list* ps,
+                               goal* pre, effect_lists* effs,
+                               var_symbol_table* st) {
+      return new axiom(nm, ps, pre, effs, st);
+    };
     virtual durative_action* buildDurativeAction() {
       return new durative_action;
     };
@@ -1783,6 +1826,10 @@ namespace VAL {
                         effect_lists* effs, var_symbol_table* st) {
       return strucFactory->buildAction(nm, ps, pre, effs, st);
     };
+    axiom* buildAxiom(operator_symbol* nm, var_symbol_list* ps, goal* pre,
+                        effect_lists* effs, var_symbol_table* st) {
+      return strucFactory->buildAxiom(nm, ps, pre, effs, st);
+    };
     event* buildEvent(operator_symbol* nm, var_symbol_list* ps, goal* pre,
                       effect_lists* effs, var_symbol_table* st) {
       return strucFactory->buildEvent(nm, ps, pre, effs, st);
@@ -1808,6 +1855,7 @@ namespace VAL {
     pred_symbol_table pred_tab;
     func_symbol_table func_tab;
     operator_symbol_table op_tab;
+    operator_symbol_list axiom_list;
     class_symbol_table classes_tab;
     pddl_req_flag req;
 
