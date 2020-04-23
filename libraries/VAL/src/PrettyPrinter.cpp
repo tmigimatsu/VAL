@@ -428,6 +428,22 @@ namespace VAL {
     showType = true;
   };
 
+  void PrettyPrinter::write_axiom(ostream &o, const axiom *p) {
+    o << "(:axiom " << "\n :vars (";
+    p->parameters->var_symbol_list::write(o);
+    showType = false;
+    o << ")\n :context\n\t(and ";
+    if (conj_goal *cg = dynamic_cast< conj_goal * >(p->precondition)) {
+      o << *(cg->getGoals());
+    } else {
+      o << *(p->precondition);
+    };
+    o << ")\n :implies\n\t";
+    p->effects->effect_lists::write(o);
+    o << ")\n\n";
+    showType = true;
+  };
+
   void PrettyPrinter::write_event(ostream &o, const event *p) {
     o << "(:event " << p->name->getName() << "\n :parameters (";
     p->parameters->var_symbol_list::write(o);

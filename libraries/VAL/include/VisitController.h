@@ -93,6 +93,7 @@ namespace VAL {
     virtual void visit_derivation_rule(derivation_rule *d){};
     virtual void visit_operator_(operator_ *){};
     virtual void visit_action(action *){};
+    virtual void visit_axiom(axiom *){};
     virtual void visit_event(event *){};
     virtual void visit_process(process *){};
     virtual void visit_durative_action(durative_action *){};
@@ -247,6 +248,9 @@ namespace VAL {
     };
     virtual void visit_action(const action *s) {
       visit_action(const_cast< action * >(s));
+    };
+    virtual void visit_axiom(const axiom *s) {
+      visit_axiom(const_cast< axiom * >(s));
     };
     virtual void visit_event(const event *s) {
       visit_event(const_cast< event * >(s));

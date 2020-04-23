@@ -53,6 +53,7 @@ namespace VAL {
     // virtual void write_operator_list(ostream & o,const operator_list *);
     virtual void write_operator_(ostream &o, const operator_ *);
     virtual void write_action(ostream &o, const action *);
+    virtual void write_axiom(ostream &o, const axiom *);
     virtual void write_event(ostream &o, const event *);
     virtual void write_process(ostream &o, const process *);
     virtual void write_durative_action(ostream &o, const durative_action *);

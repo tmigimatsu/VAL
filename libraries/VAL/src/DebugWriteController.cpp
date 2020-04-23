@@ -205,6 +205,10 @@ namespace VAL {
     p->display(indent);
   };
 
+  void DebugWriteController::write_axiom(ostream &o, const axiom *p) {
+    p->display(indent);
+  };
+
   void DebugWriteController::write_event(ostream &o, const event *p) {
     p->display(indent);
   };
