@@ -30,7 +30,7 @@ namespace VAL {
 
 };  // namespace VAL
 
-extern char *current_filename;
+extern const char *current_filename;
 using namespace VAL;
 
 /**

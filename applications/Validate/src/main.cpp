@@ -31,7 +31,7 @@ using std::ofstream;
 extern int yyparse();
 extern int yydebug;
 
-extern char *current_filename;
+extern const char *current_filename;
 
 namespace VAL {
 

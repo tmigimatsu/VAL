@@ -16,7 +16,7 @@ using std::list;
 using std::string;
 
 extern int line_no;             // Line number global
-extern char *current_filename;  // file global
+extern const char *current_filename;  // file global
 
 namespace VAL {
 
@@ -25,7 +25,7 @@ namespace VAL {
   class parse_error {
    private:
     error_severity severity;
-    char *filename;
+    const char *filename;
     int line;
     string description;
 

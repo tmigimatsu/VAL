@@ -23,7 +23,7 @@ using std::map;
 using std::ofstream;
 using std::stringstream;
 
-char *current_filename;
+const char *current_filename;
 
 namespace VAL {
 

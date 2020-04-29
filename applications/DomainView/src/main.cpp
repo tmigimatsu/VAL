@@ -26,7 +26,7 @@ namespace VAL {
 
 };  // namespace VAL
 
-extern char *current_filename;
+extern const char *current_filename;
 
 #include "Utils.h"
 #include "VisitController.h"
