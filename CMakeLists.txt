@@ -93,6 +93,7 @@ set(LIB_VAL_SOURCE_FILES
     ${LIBRARY_VAL_SRC_DIR}/Validator.cpp
     ${LIBRARY_VAL_SRC_DIR}/valLib.cpp)
 add_library(VAL SHARED ${LIB_VAL_SOURCE_FILES})
+add_library(VAL::VAL ALIAS VAL)
 if( CMAKE_COMPILER_IS_GNUCC )
     target_compile_options(VAL PUBLIC "-DVAL_EXPORTS")
 endif()
