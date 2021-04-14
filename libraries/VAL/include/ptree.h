@@ -549,6 +549,7 @@ namespace VAL {
     virtual void visit(VisitController* v) const;
 
     const string getName() const { return name; };
+    const string& getNameRef() const { return name; };
   };
 
   class pred_symbol : public symbol {
