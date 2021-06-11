@@ -22,17 +22,17 @@ using std::ofstream;
 using std::stringstream;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern parse_category *top_thing;
   extern analysis an_analysis;
   extern yyFlexLexer *yfl;
-}  // namespace VAL
+}  // namespace VAL_v1
 
 extern int yyparse();
 extern int yydebug;
 
-using namespace VAL;
+using namespace VAL_v1;
 using namespace std;
 
 bool printTimes;
@@ -287,7 +287,7 @@ ostream &operator<<(ostream &o, const PlanProcessor &p) {
   return o;
 }
 
-namespace VAL {
+namespace VAL_v1 {
   extern bool Verbose;
 }
 int main(int argc, char *argv[]) {

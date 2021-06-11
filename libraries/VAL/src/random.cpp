@@ -3,7 +3,7 @@
 
 #include "random.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   NormalGen Generators::randomNumberNormGenerator = NormalGen();
   UniformGen Generators::randomNumberUniGenerator = UniformGen(0, 0, 1);
@@ -38,4 +38,4 @@ namespace VAL {
     return total / noToAverage;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

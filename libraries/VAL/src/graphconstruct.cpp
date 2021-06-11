@@ -10,21 +10,21 @@
 #include "ptree.h"
 #include <fstream>
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
-  class PlanGraph::BVEvaluator : public VAL::VisitController {
+  class PlanGraph::BVEvaluator : public VAL_v1::VisitController {
    private:
     // The BVEvaluator is going to own this bval.
     BoundedValue *bval;
     PlanGraph &pg;
-    VAL::FastEnvironment *fenv;
+    VAL_v1::FastEnvironment *fenv;
 
     bool continuous;
 
    public:
-    BVEvaluator(PlanGraph &p, VAL::FastEnvironment *fe)
+    BVEvaluator(PlanGraph &p, VAL_v1::FastEnvironment *fe)
         : bval(0), pg(p), fenv(fe), continuous(false){};
     ~BVEvaluator() { delete bval; };
     bool isContinuous() const { return continuous; };
@@ -392,9 +392,9 @@ namespace Inst {
     return bi;
   };
 
-  BoundedValue *PlanGraph::update(BoundedValue *bv, const VAL::expression *exp,
-                                  const VAL::assign_op op,
-                                  VAL::FastEnvironment *fe) {
+  BoundedValue *PlanGraph::update(BoundedValue *bv, const VAL_v1::expression *exp,
+                                  const VAL_v1::assign_op op,
+                                  VAL_v1::FastEnvironment *fe) {
     BVEvaluator bve(*this, fe);
     exp->visit(&bve);
     BoundedValue *b = bve.getBV();
@@ -451,8 +451,8 @@ namespace Inst {
       << " to " << *bval;
   };
 
-  void FluentEntry::addUpdatedBy(ActEntry *ae, const VAL::expression *expr,
-                                 const VAL::assign_op op, PlanGraph *pg) {
+  void FluentEntry::addUpdatedBy(ActEntry *ae, const VAL_v1::expression *expr,
+                                 const VAL_v1::assign_op op, PlanGraph *pg) {
     cout << "Performing BV calc on " << *bval << "\n";
     BoundedValue *vv = bval->copy();
     BoundedValue *v = pg->update(vv, expr, op, ae->getIO()->getEnv());
@@ -539,7 +539,7 @@ namespace Inst {
     };
     //	virtual void visit_timed_effect(timed_effect *) {};
     virtual void visit_effect_lists(effect_lists *effs) {
-      for (VAL::pc_list< assignment * >::iterator i =
+      for (VAL_v1::pc_list< assignment * >::iterator i =
                effs->assign_effects.begin();
            i != effs->assign_effects.end(); ++i) {
         (*i)->visit(this);
@@ -676,7 +676,7 @@ namespace Inst {
   };
 
   void PlanGraph::extendToGoals() {
-    VAL::FastEnvironment bs(0);
+    VAL_v1::FastEnvironment bs(0);
     while (true) {
       extendPlanGraph();
       SpikeEvaluator spiv(*this, props, fluents, &bs);

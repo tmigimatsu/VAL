@@ -33,7 +33,7 @@ extern int yydebug;
 
 extern const char *current_filename;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern parse_category *top_thing;
 
@@ -50,11 +50,11 @@ namespace VAL {
   extern bool LaTeX;
 
   extern ostream *report;
-};  // namespace VAL
+};  // namespace VAL_v1
 
 typedef map< double, vector< pair< string, vector< double > > > > Ranking;
 
-using namespace VAL;
+using namespace VAL_v1;
 
 void usage() {
   cout << "VAL: The PDDL+ plan validation tool\n"

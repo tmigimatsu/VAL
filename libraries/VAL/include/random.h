@@ -21,7 +21,7 @@
 #ifndef __RANDOM_H
 #define __RANDOM_H
 
-namespace VAL {
+namespace VAL_v1 {
 
   // These classes must use 32 bit integers. If int is not 32 bit for your
   // compiler, then replace the following typedefs with a type that is.
@@ -296,6 +296,6 @@ namespace VAL {
   double getRandomNumberUniform();
   double getRandomNumberPsuedoNormal();
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -4,7 +4,7 @@
 #include "LaTeXSupport.h"
 #include "ptree.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern analysis an_analysis;
 
@@ -204,4 +204,4 @@ namespace VAL {
 
   void LaTeXSupport::LaTeXEnd() { *report << "\\end{document}\n"; };
 
-};  // namespace VAL
+};  // namespace VAL_v1

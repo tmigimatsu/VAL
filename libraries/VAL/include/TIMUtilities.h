@@ -10,7 +10,7 @@
 using std::iterator;
 using std::ostream;
 
-namespace VAL {
+namespace VAL_v1 {
   class pddl_type;
 };
 
@@ -35,17 +35,17 @@ namespace TIM {
             std::forward_iterator
 #endif
         < typename std::iterator_traits< TI >::iterator_category,
-          VAL::pddl_type * > {
+          VAL_v1::pddl_type * > {
     TI ti;
     int arg;
-    const VAL::pddl_type *pt;
+    const VAL_v1::pddl_type *pt;
     int cnt;
 
-    typeTransformer(TI t, int a, const VAL::pddl_type *p)
+    typeTransformer(TI t, int a, const VAL_v1::pddl_type *p)
         : ti(t), arg(a), pt(p), cnt(0){};
 
-    VAL::pddl_type *operator*() {
-      if (cnt == arg) return const_cast< VAL::pddl_type * >(pt);
+    VAL_v1::pddl_type *operator*() {
+      if (cnt == arg) return const_cast< VAL_v1::pddl_type * >(pt);
       return (*ti)->type;
     };
     typeTransformer< TI > &operator++() {
@@ -62,7 +62,7 @@ namespace TIM {
   };
 
   template < class TI >
-  typeTransformer< TI > makeTT(TI t, int a, const VAL::pddl_type *p) {
+  typeTransformer< TI > makeTT(TI t, int a, const VAL_v1::pddl_type *p) {
     return typeTransformer< TI >(t, a, p);
   };
 

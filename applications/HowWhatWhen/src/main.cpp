@@ -9,7 +9,7 @@
 #include <iostream>
 
 using namespace TIM;
-using namespace VAL;
+using namespace VAL_v1;
 // using namespace Inst;
 
 int main(int argc, char *argv[]) {

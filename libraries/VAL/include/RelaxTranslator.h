@@ -13,7 +13,7 @@
 using std::stringstream;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Environment;
@@ -97,6 +97,6 @@ namespace VAL {
     virtual void collect_symbols(var_symbol_list &vs, const expression *e);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

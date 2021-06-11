@@ -12,7 +12,7 @@
 #include "State.h"
 #include "VisitController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class ActionLinker : public VisitController {
    private:
@@ -129,5 +129,5 @@ namespace VAL {
     };
   };
 
-}  // namespace VAL
+}  // namespace VAL_v1
 #endif

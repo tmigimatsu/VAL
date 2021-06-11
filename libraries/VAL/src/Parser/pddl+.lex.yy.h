@@ -1128,7 +1128,7 @@ static yyconst flex_int16_t yy_chk[1998] =
   using std::cout;
   using std::cerr;
   using std::istream;
-  using namespace VAL;
+  using namespace VAL_v1;
 extern "C" int yywrap();
 
 #line 1135 "pddl+.lex.yy.h"

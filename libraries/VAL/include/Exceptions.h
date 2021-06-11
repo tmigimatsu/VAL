@@ -6,7 +6,7 @@
 #include <exception>
 using std::exception;
 
-namespace VAL {
+namespace VAL_v1 {
 
   struct UndefinedClassError : public exception {
     const char* what() const throw() {
@@ -121,6 +121,6 @@ namespace VAL {
     const char* what() const throw() { return "Error in type-checking!\n"; };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

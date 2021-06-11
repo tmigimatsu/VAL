@@ -13,7 +13,7 @@ using std::vector;
 
 #include "ptree.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   template < class U >
   class IDsymbol : public U {
@@ -172,6 +172,6 @@ namespace VAL {
     return LiteralParameterIterator< TI >(f, p);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

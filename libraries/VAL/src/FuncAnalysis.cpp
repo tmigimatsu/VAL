@@ -7,7 +7,7 @@
 using std::find;
 using std::set;
 
-namespace VAL {
+namespace VAL_v1 {
 
   bool FAverbose = true;
 
@@ -265,4 +265,4 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

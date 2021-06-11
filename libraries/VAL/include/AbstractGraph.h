@@ -6,7 +6,7 @@
 
 #include "HowAnalyser.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class AbstractProposition {
    private:
@@ -116,6 +116,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

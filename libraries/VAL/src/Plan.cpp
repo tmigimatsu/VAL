@@ -26,7 +26,7 @@ using std::sort;
 //#define map std::map
 //#define list std::list
 
-namespace VAL {
+namespace VAL_v1 {
 
   Happening::Happening(Validator *v,
                        const vector< pair< double, Action * > > &as,
@@ -2076,4 +2076,4 @@ namespace VAL {
   };
 
   void Plan::addHappening(Happening *h) { happenings.push_back(h); };
-};  // namespace VAL
+};  // namespace VAL_v1

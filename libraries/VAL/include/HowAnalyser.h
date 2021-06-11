@@ -15,7 +15,7 @@ using std::cout;
 using std::set;
 using namespace TIM;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class AbstractGraph;
 
@@ -203,6 +203,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

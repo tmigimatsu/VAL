@@ -4,7 +4,7 @@
 #include "AccumulatedDelta.h"
 #include "State.h"
 
-namespace VAL {
+namespace VAL_v1 {
   AccumulatedDelta::AccumulatedDelta() {
     // ctor
   }
@@ -25,4 +25,4 @@ namespace VAL {
     changedPNEs.clear();
     changedLiterals.clear();
   }
-}  // namespace VAL
+}  // namespace VAL_v1

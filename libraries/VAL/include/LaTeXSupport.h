@@ -15,7 +15,7 @@ using std::ostream;
 using std::string;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   struct showList {
     void operator()(
@@ -89,6 +89,6 @@ namespace VAL {
 
   extern LaTeXSupport latex;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

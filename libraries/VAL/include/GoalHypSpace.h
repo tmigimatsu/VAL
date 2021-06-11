@@ -6,7 +6,7 @@
 
 #include <ostream>
 
-namespace VAL {
+namespace VAL_v1 {
 
   class GoalHypothesisSpace {
    public:
@@ -21,6 +21,6 @@ namespace VAL {
     return o;
   };
 
-}  // namespace VAL
+}  // namespace VAL_v1
 
 #endif

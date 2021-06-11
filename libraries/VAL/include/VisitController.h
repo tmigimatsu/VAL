@@ -29,7 +29,7 @@
 
 #include "ptree.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class VisitController {
    public:
@@ -281,6 +281,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

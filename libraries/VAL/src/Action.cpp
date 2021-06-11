@@ -23,7 +23,7 @@ using std::list;
 using std::map;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   Action::~Action() {
     if (pre) pre->destroy();
@@ -878,4 +878,4 @@ namespace VAL {
   const Action *CtsEffectAction::partner() const { return start; };
   const Action *CondCommunicationAction::partner() const { return start; };
 
-};  // namespace VAL
+};  // namespace VAL_v1

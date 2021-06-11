@@ -9,7 +9,7 @@
 #include "instantiation.h"
 
 using namespace TIM;
-using namespace VAL;
+using namespace VAL_v1;
 using namespace Inst;
 
 int main(int argc, char *argv[]) {
@@ -57,9 +57,9 @@ int main(int argc, char *argv[]) {
       for_each(current_analysis->the_domain->ops->begin(),
                           current_analysis->the_domain->ops->end(),showMutex);
 
-      VAL::operator_* A = *(current_analysis->the_domain->ops->begin());
-      VAL::operator_* B = *(++current_analysis->the_domain->ops->begin());
-      vector<VAL::const_symbol*> argsA, argsB;
+      VAL_v1::operator_* A = *(current_analysis->the_domain->ops->begin());
+      VAL_v1::operator_* B = *(++current_analysis->the_domain->ops->begin());
+      vector<VAL_v1::const_symbol*> argsA, argsB;
       for(var_symbol_list::iterator i = A->parameters->begin();!(i ==
      A->parameters->end());++i)
       {
@@ -70,9 +70,9 @@ int main(int argc, char *argv[]) {
       {
           argsB.push_back(*(theTC->range(*i).begin()));
       };
-          for_each(argsA.begin(),argsA.end(),ptrwriter<VAL::const_symbol>(cout,"
+          for_each(argsA.begin(),argsA.end(),ptrwriter<VAL_v1::const_symbol>(cout,"
      ")); cout << "\n";
-          for_each(argsB.begin(),argsB.end(),ptrwriter<VAL::const_symbol>(cout,"
+          for_each(argsB.begin(),argsB.end(),ptrwriter<VAL_v1::const_symbol>(cout,"
      ")); cout << "\n";
 
           cout << "Mutexes for " << A->name->getName() << " and " <<

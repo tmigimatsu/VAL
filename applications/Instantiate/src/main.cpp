@@ -17,7 +17,7 @@ using std::ifstream;
 
 using namespace TIM;
 using namespace Inst;
-using namespace VAL;
+using namespace VAL_v1;
 
 int main(int argc, char *argv[]) {
   performTIMAnalysis(&argv[1]);

@@ -17,7 +17,7 @@
 using std::cerr;
 using std::map;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   extern bool LaTeX;
@@ -134,6 +134,6 @@ namespace VAL {
     ~FuncExpFactory();
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

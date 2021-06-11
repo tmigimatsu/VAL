@@ -20,7 +20,7 @@ using std::stringstream;
 //#define map std::map
 //#define vector std::vector
 
-namespace VAL {
+namespace VAL_v1 {
 
   bool stepLengthDefault;
   bool makespanDefault;
@@ -3280,4 +3280,4 @@ namespace VAL {
   };
   */
 
-};  // namespace VAL
+};  // namespace VAL_v1

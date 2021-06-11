@@ -14,7 +14,7 @@ using std::for_each;
 using std::set;
 
 //#define set std::set
-namespace VAL {
+namespace VAL_v1 {
 
   void RelaxTranslator::write_symbol(ostream &o, const symbol *p) {
     o << p->getName();
@@ -582,4 +582,4 @@ namespace VAL {
     cerr << "Type stripping is not an appropriate operation for plans!\n";
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -35,10 +35,10 @@ extern int yyparse();
 extern int yydebug;
 
 using namespace TIM;
-using namespace VAL;
+using namespace VAL_v1;
 // using namespace Inst;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern analysis *current_analysis;
 
@@ -54,11 +54,11 @@ namespace VAL {
 
   extern ostream *report;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 typedef map< double, vector< pair< string, vector< double > > > > Ranking;
 
-using namespace VAL;
+using namespace VAL_v1;
 
 plan *getPlan(int &argc, char *argv[], int &argcount, TypeChecker &tc,
               vector< string > &failed, string &name) {

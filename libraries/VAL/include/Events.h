@@ -12,7 +12,7 @@ using std::vector;
 #ifndef __EVENTS
 #define __EVENTS
 
-namespace VAL {
+namespace VAL_v1 {
 
   class Events {
    private:
@@ -132,6 +132,6 @@ namespace VAL {
   const_symbol_list *newBlankConstSymbolList(var_symbol_list *parameters,
                                              Validator *v);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

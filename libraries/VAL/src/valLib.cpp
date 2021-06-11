@@ -25,7 +25,7 @@ using std::stringstream;
 
 const char *current_filename;
 
-namespace VAL {
+namespace VAL_v1 {
 
   parse_category *top_thing;
 
@@ -43,12 +43,12 @@ namespace VAL {
   TypeChecker *theTC;
   ostream *report = &std::cout;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 extern int yyparse();
 extern int yydebug;
 
-using namespace VAL;
+using namespace VAL_v1;
 
 class Tracker : public StateObserver {
  private:

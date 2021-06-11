@@ -14,7 +14,7 @@ extern int yydebug;
 using std::ifstream;
 using std::ofstream;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern parse_category *top_thing;
 
@@ -23,10 +23,10 @@ namespace VAL {
 
   extern yyFlexLexer *yfl;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 extern const char *current_filename;
-using namespace VAL;
+using namespace VAL_v1;
 
 /**
  * This expects any number of filenames as arguments, although

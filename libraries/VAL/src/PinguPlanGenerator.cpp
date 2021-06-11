@@ -7,7 +7,7 @@
 
 using namespace std;
 
-namespace VAL {
+namespace VAL_v1 {
 
   PinguPlanGen::PinguPlanGen(char *name)
       : VisitController(),
@@ -338,4 +338,4 @@ namespace VAL {
     }
   };
 
-}  // namespace VAL
+}  // namespace VAL_v1

@@ -4,13 +4,13 @@
 #include <map>
 #include <vector>
 
-namespace VAL {
+namespace VAL_v1 {
 
   class var_symbol;
   class const_symbol;
   class Validator;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 //#undef vector
 //#undef map
@@ -23,7 +23,7 @@ using std::vector;
 
 //#define vector std::vector
 
-namespace VAL {
+namespace VAL_v1 {
 
   template < class T >
   bool operator!=(T &t1, T &t2) {
@@ -90,6 +90,6 @@ namespace VAL {
     return EnvironmentParameterIterator< TI >(f, p);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

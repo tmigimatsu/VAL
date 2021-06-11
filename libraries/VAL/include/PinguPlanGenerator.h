@@ -20,7 +20,7 @@ using std::set;
 using std::string;
 using namespace TIM;
 
-namespace VAL {
+namespace VAL_v1 {
 
   struct PinguPosition {
     float first;
@@ -91,6 +91,6 @@ namespace VAL {
     virtual void visit_plan_step(plan_step *p);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

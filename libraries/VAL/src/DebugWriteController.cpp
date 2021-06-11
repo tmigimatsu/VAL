@@ -4,7 +4,7 @@
 #include "DebugWriteController.h"
 #include <iostream>
 
-namespace VAL {
+namespace VAL_v1 {
 
   void DebugWriteController::write_symbol(ostream &o, const symbol *p) {
     p->display(indent);
@@ -262,4 +262,4 @@ namespace VAL {
     vt->display(indent);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -12,7 +12,7 @@
 using std::string;
 using std::vector;
 
-using VAL::class_def;
+using VAL_v1::class_def;
 
 namespace ExternalSupport {
 

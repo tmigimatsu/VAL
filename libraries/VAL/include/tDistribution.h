@@ -4,7 +4,7 @@
 #ifndef __TDIST
 #define __TDIST
 
-namespace VAL {
+namespace VAL_v1 {
 
   // struct store the upper critial values of the student T Distribution
   struct Table5Percent {
@@ -117,6 +117,6 @@ namespace VAL {
     return -1;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

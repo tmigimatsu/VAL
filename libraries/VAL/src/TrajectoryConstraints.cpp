@@ -6,7 +6,7 @@
 #include "Validator.h"
 #include "VisitController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   int PreferenceMonitor::id = 0;
   std::set< int > PreferenceMonitor::done;
@@ -548,4 +548,4 @@ namespace VAL {
     return true;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

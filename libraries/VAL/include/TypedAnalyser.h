@@ -34,7 +34,7 @@ using std::vector;
  * before going on to the Analyser phase.
  */
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern TypeChecker *theTC;
 
@@ -689,8 +689,8 @@ namespace VAL {
   };
 
 #define EPS(x)                                \
-  static_cast< VAL::extended_pred_symbol * >( \
-      const_cast< VAL::pred_symbol * >(x))
+  static_cast< VAL_v1::extended_pred_symbol * >( \
+      const_cast< VAL_v1::pred_symbol * >(x))
 
   class Associater {
    public:
@@ -882,8 +882,8 @@ namespace VAL {
   };
 
 #define HPS(x)                              \
-  const_cast< VAL::holding_pred_symbol * >( \
-      static_cast< const VAL::holding_pred_symbol * >(x))
+  const_cast< VAL_v1::holding_pred_symbol * >( \
+      static_cast< const VAL_v1::holding_pred_symbol * >(x))
 
   class LeafAssociater : public Associater {
    private:
@@ -1242,6 +1242,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

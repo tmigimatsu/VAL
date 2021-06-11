@@ -13,7 +13,7 @@ using std::vector;
 #include "VisitController.h"
 #include "ptree.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class extended_pred_symbol : public pred_symbol {
    private:
@@ -89,7 +89,7 @@ namespace VAL {
   };
 
 #define EPS(x) \
-  static_cast< VAL::extended_pred_symbol* >(const_cast< VAL::pred_symbol* >(x))
+  static_cast< VAL_v1::extended_pred_symbol* >(const_cast< VAL_v1::pred_symbol* >(x))
 
   class Analyser : public VisitController {
    private:
@@ -187,6 +187,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

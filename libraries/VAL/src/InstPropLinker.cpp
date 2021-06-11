@@ -10,11 +10,11 @@
 #include "FastEnvironment.h"
 #include "ptree.h"
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
-  Literal *toLiteral(const VAL::SimpleProposition *sp) {
+  Literal *toLiteral(const VAL_v1::SimpleProposition *sp) {
     int id = -1;
     for (parameter_symbol_list::const_iterator i = sp->getProp()->args->begin();
          i != sp->getProp()->args->end(); ++i) {
@@ -28,7 +28,7 @@ namespace Inst {
          i != sp->getProp()->args->end(); ++i) {
       if (const var_symbol *vs = dynamic_cast< const var_symbol * >(*i)) {
         (*fe)[vs] =
-            const_cast< VAL::const_symbol * >(sp->getEnv()->find(vs)->second);
+            const_cast< VAL_v1::const_symbol * >(sp->getEnv()->find(vs)->second);
       };
     };
 

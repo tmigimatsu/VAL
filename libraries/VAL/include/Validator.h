@@ -60,7 +60,7 @@
 #include <string>
 #include <vector>
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool makespanDefault;
   extern bool stepLengthDefault;
@@ -466,6 +466,6 @@ namespace VAL {
 
   double getMaxTime(const plan *aPlan);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

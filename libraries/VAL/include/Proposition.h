@@ -18,7 +18,7 @@ using std::map;
 using std::set;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Action;
@@ -758,6 +758,6 @@ namespace VAL {
     void visit(APVisitor *apv) const { apv->visitAPComp(this); };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

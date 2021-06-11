@@ -6,7 +6,7 @@
 
 #include "WriteController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class DebugWriteController : public WriteController {
    protected:
@@ -75,6 +75,6 @@ namespace VAL {
     virtual void write_constraint_goal(ostream &o, const constraint_goal *);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

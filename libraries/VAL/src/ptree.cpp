@@ -11,7 +11,7 @@
   Parse category
   ---------------------------------------------------------------------------*/
 
-namespace VAL {
+namespace VAL_v1 {
 
   shared_ptr< WriteController > parse_category::wcntr =
       shared_ptr< WriteController >(new DebugWriteController);
@@ -647,14 +647,14 @@ namespace VAL {
 
   void plan_step::write(ostream &o) const { wcntr->write_plan_step(o, this); };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 void indent(int ind) {
   cout << '\n';
   for (int i = 0; i < ind; i++) cout << "   ";
 }
 
-namespace VAL {
+namespace VAL_v1 {
   /*---------------------------------------------------------------------------
     Functions called from parser that perform checks, and possibly generate
     errors.
@@ -872,4 +872,4 @@ namespace VAL {
   void violation_term::visit(VisitController *v) const {
     v->visit_violation_term(this);
   };
-};  // namespace VAL
+};  // namespace VAL_v1

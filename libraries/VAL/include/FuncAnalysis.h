@@ -17,17 +17,17 @@ using std::ostream;
 using std::pair;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class extended_func_symbol;
   typedef std::map< extended_func_symbol *, std::set< extended_func_symbol * > >
       IGraph;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #include "VisitController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool FAverbose;
 
@@ -458,6 +458,6 @@ namespace VAL {
     FValue operator()() { return val; };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

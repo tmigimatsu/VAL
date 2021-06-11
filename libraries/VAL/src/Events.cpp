@@ -7,7 +7,7 @@
 #include "RobustAnalyse.h"
 #include "Validator.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   Events::Events(const operator_list *ops)
       : ungroundEvents(),
@@ -2083,4 +2083,4 @@ namespace VAL {
     return e;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

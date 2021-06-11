@@ -4,7 +4,7 @@
 #ifndef __STATEOBS
 #define __STATEOBS
 
-namespace VAL {
+namespace VAL_v1 {
 
   class Happening;
   class EffectsRecord;
@@ -15,5 +15,5 @@ namespace VAL {
     virtual void notifyChanged(const State *s, const Happening *h){};
   };
 
-}  // namespace VAL
+}  // namespace VAL_v1
 #endif

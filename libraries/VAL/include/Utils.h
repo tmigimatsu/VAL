@@ -10,7 +10,7 @@
 using std::ostringstream;
 using std::string;
 
-namespace VAL {
+namespace VAL_v1 {
 
   template < typename T >
   struct ToStringer {
@@ -40,6 +40,6 @@ namespace VAL {
 
   void latexString(string &s);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

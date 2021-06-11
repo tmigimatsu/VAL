@@ -11,7 +11,7 @@
 #include <set>
 
 using std::set;
-namespace VAL {
+namespace VAL_v1 {
   class AccumulatedDelta : public StateObserver {
    public:
     AccumulatedDelta();
@@ -30,6 +30,6 @@ namespace VAL {
     set< const FuncExp * > changedPNEs;
     set< const SimpleProposition * > changedLiterals;
   };
-}  // namespace VAL
+}  // namespace VAL_v1
 
 #endif  // ACCUMULATEDDELTA_H

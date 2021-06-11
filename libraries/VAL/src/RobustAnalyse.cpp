@@ -8,7 +8,7 @@
 #include "random.h"
 #include "tDistribution.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   bool Robust;
   double RobustPNEJudder;
@@ -1105,4 +1105,4 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

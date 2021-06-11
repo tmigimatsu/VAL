@@ -92,29 +92,29 @@ set(LIB_VAL_SOURCE_FILES
     ${LIBRARY_VAL_SRC_DIR}/Utils.cpp
     ${LIBRARY_VAL_SRC_DIR}/Validator.cpp
     ${LIBRARY_VAL_SRC_DIR}/valLib.cpp)
-add_library(VAL SHARED ${LIB_VAL_SOURCE_FILES})
-add_library(VAL::VAL ALIAS VAL)
+add_library(VAL_v1 SHARED ${LIB_VAL_SOURCE_FILES})
+add_library(VAL_v1::VAL_v1 ALIAS VAL_v1)
 if( CMAKE_COMPILER_IS_GNUCC )
-    target_compile_options(VAL PUBLIC "-DVAL_EXPORTS")
+    target_compile_options(VAL_v1 PUBLIC "-DVAL_EXPORTS")
 endif()
 # Add source files of parser in the Debug area for debugging.
 if ( ${CMAKE_BUILD_TYPE} MATCHES Debug )
-    add_custom_command(TARGET VAL POST_BUILD
+    add_custom_command(TARGET VAL_v1 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${LIBRARY_VAL_SRC_DIR}/Parser/pddl+.y ${LIBRARY_VAL_SRC_DIR}/Parser/pddl+.cpp ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     )
 endif()
 if( WIN32 )
-    target_compile_options(VAL PUBLIC "-DYY_NO_UNISTD_H")
+    target_compile_options(VAL_v1 PUBLIC "-DYY_NO_UNISTD_H")
 endif()
 # Support of external solvers feature
 if( ${SUPPORT_EXTERNALS} )
-    target_compile_options(VAL PUBLIC "-DSUPPORTEXTERNALS")
-    target_include_directories(VAL PUBLIC ${EXTERNALS_DIR}/dlfcn-win32/include)
+    target_compile_options(VAL_v1 PUBLIC "-DSUPPORTEXTERNALS")
+    target_include_directories(VAL_v1 PUBLIC ${EXTERNALS_DIR}/dlfcn-win32/include)
     if( WIN32 )
         find_library(LIB_DLFCN libdl.dll ${EXTERNALS_DIR}/dlfcn-win32/lib/win64)
-        target_link_libraries(VAL ${LIB_DLFCN})
+        target_link_libraries(VAL_v1 ${LIB_DLFCN})
     else()
-        target_link_libraries(VAL dl)
+        target_link_libraries(VAL_v1 dl)
     endif()
 endif()
 
@@ -122,7 +122,7 @@ endif()
 set(ANALYSE_SOURCE_FILES
     ${APPLICATIONS_DIR}/Analyse/src/main.cpp)
 add_executable(Analyse ${ANALYSE_SOURCE_FILES})
-target_link_libraries(Analyse VAL)
+target_link_libraries(Analyse VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(Analyse2 ${ANALYSE_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -131,7 +131,7 @@ endif()
 set(DOMAIN_VIEW_SOURCE_FILES
     ${APPLICATIONS_DIR}/DomainView/src/main.cpp)
 add_executable(DomainView ${DOMAIN_VIEW_SOURCE_FILES})
-target_link_libraries(DomainView VAL)
+target_link_libraries(DomainView VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(DomainView2 ${DOMAIN_VIEW_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -140,7 +140,7 @@ endif()
 set(HOW_WHAT_WHEN_SOURCE_FILES
     ${APPLICATIONS_DIR}/HowWhatWhen/src/main.cpp)
 add_executable(HowWhatWhen ${HOW_WHAT_WHEN_SOURCE_FILES})
-target_link_libraries(HowWhatWhen VAL)
+target_link_libraries(HowWhatWhen VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(HowWhatWhen2 ${HOW_WHAT_WHEN_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -149,7 +149,7 @@ endif()
 set(INSTANTIATE_SOURCE_FILES
     ${APPLICATIONS_DIR}/Instantiate/src/main.cpp)
 add_executable(Instantiate ${INSTANTIATE_SOURCE_FILES})
-target_link_libraries(Instantiate VAL)
+target_link_libraries(Instantiate VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(Instantiate2 ${INSTANTIATE_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -167,7 +167,7 @@ endif()
 set(PARSER_SOURCE_FILES
     ${APPLICATIONS_DIR}/Parser/src/main.cpp)
 add_executable(Parser ${PARSER_SOURCE_FILES})
-target_link_libraries(Parser VAL)
+target_link_libraries(Parser VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(Parser2 ${PARSER_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -176,7 +176,7 @@ endif()
 set(PINGUPLAN_SOURCE_FILES
     ${APPLICATIONS_DIR}/PinguPlan/src/main.cpp)
 add_executable(PinguPlan ${PINGUPLAN_SOURCE_FILES})
-target_link_libraries(PinguPlan VAL)
+target_link_libraries(PinguPlan VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(PinguPlan2 ${PINGUPLAN_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -185,7 +185,7 @@ endif()
 set(PLANREC_SOURCE_FILES
     ${APPLICATIONS_DIR}/PlanRec/src/main.cpp)
 add_executable(PlanRec ${PLANREC_SOURCE_FILES})
-target_link_libraries(PlanRec VAL)
+target_link_libraries(PlanRec VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(PlanRec2 ${PLANREC_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -194,7 +194,7 @@ endif()
 set(PLAN_SEQ_STEP_SOURCE_FILES
     ${APPLICATIONS_DIR}/PlanSeqStep/src/main.cpp)
 add_executable(PlanSeqStep ${PLAN_SEQ_STEP_SOURCE_FILES})
-target_link_libraries(PlanSeqStep VAL)
+target_link_libraries(PlanSeqStep VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(PlanSeqStep2 ${PLAN_SEQ_STEP_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -203,7 +203,7 @@ endif()
 set(PLAN_TO_VAL_STEP_SOURCE_FILES
     ${APPLICATIONS_DIR}/PlanToValStep/src/main.cpp)
 add_executable(PlanToValStep ${PLAN_TO_VAL_STEP_SOURCE_FILES})
-target_link_libraries(PlanToValStep VAL)
+target_link_libraries(PlanToValStep VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(PlanToValStep2 ${PLAN_TO_VAL_STEP_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -212,7 +212,7 @@ endif()
 set(RELAX_SOURCE_FILES
     ${APPLICATIONS_DIR}/Relax/src/main.cpp)
 add_executable(Relax ${RELAX_SOURCE_FILES})
-target_link_libraries(Relax VAL)
+target_link_libraries(Relax VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(Relax2 ${RELAX_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -221,7 +221,7 @@ endif()
 set(TIM_SOURCE_FILES
     ${APPLICATIONS_DIR}/TIM/src/main.cpp)
 add_executable(TIM ${TIM_SOURCE_FILES})
-target_link_libraries(TIM VAL)
+target_link_libraries(TIM VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(TIM2 ${TIM_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -230,7 +230,7 @@ endif()
 set(TOFN_SOURCE_FILES
     ${APPLICATIONS_DIR}/ToFn/src/main.cpp)
 add_executable(ToFn ${TOFN_SOURCE_FILES})
-target_link_libraries(ToFn VAL)
+target_link_libraries(ToFn VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(ToFn2 ${TOFN_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -239,7 +239,7 @@ endif()
 set(TAN_SOURCE_FILES
     ${APPLICATIONS_DIR}/TypeAnalysis/src/main.cpp)
 add_executable(TypeAnalysis ${TAN_SOURCE_FILES})
-target_link_libraries(TypeAnalysis VAL)
+target_link_libraries(TypeAnalysis VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(TypeAnalysis2 ${TAN_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -248,7 +248,7 @@ endif()
 set(VALIDATE_SOURCE_FILES
     ${APPLICATIONS_DIR}/Validate/src/main.cpp)
 add_executable(Validate ${VALIDATE_SOURCE_FILES})
-target_link_libraries(Validate VAL)
+target_link_libraries(Validate VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(Validate2 ${VALIDATE_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -257,7 +257,7 @@ endif()
 set(VALSTEP_SOURCE_FILES
     ${APPLICATIONS_DIR}/ValStep/src/main.cpp)
 add_executable(ValStep ${VALSTEP_SOURCE_FILES})
-target_link_libraries(ValStep VAL)
+target_link_libraries(ValStep VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(ValStep2 ${VALSTEP_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
@@ -266,14 +266,14 @@ endif()
 set(VALUE_SEQ_SOURCE_FILES
     ${APPLICATIONS_DIR}/ValueSeq/src/main.cpp)
 add_executable(ValueSeq ${VALUE_SEQ_SOURCE_FILES})
-target_link_libraries(ValueSeq VAL)
+target_link_libraries(ValueSeq VAL_v1)
 if( ${VERIFY_SYMBOLS} )
     add_executable(ValueSeq2 ${VALUE_SEQ_SOURCE_FILES} ${LIB_VAL_SOURCE_FILES})
 endif()
 
 # Targets to be installed
 install(
-    TARGETS VAL Analyse DomainView HowWhatWhen Instantiate Parser PinguPlan PlanRec PlanSeqStep PlanToValStep Relax TIM ToFn TypeAnalysis Validate ValStep ValueSeq
+    TARGETS VAL_v1 Analyse DomainView HowWhatWhen Instantiate Parser PinguPlan PlanRec PlanSeqStep PlanToValStep Relax TIM ToFn TypeAnalysis Validate ValStep ValueSeq
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin
 )
@@ -316,7 +316,7 @@ include (CPack)
 
 file(GLOB_RECURSE LIBRARY_VAL_HEADERS ${LIBRARY_VAL_INCLUDE_DIR}/*.h)
 file(COPY ${LIBRARY_VAL_HEADERS} DESTINATION ${CMAKE_BINARY_DIR}/include/VAL)
-target_include_directories(VAL
+target_include_directories(VAL_v1
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
 )
@@ -327,7 +327,7 @@ include(GNUInstallDirs)
 set(LIB_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/VAL)
 
 # Install the library
-install(TARGETS VAL
+install(TARGETS VAL_v1
     EXPORT VALTargets
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -340,7 +340,7 @@ install(DIRECTORY ${LIBRARY_VAL_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_INCLUDE
 # Export targets to Targets.cmake
 install(EXPORT VALTargets
     DESTINATION ${LIB_CONFIG_INSTALL_DIR}
-    NAMESPACE VAL::
+    NAMESPACE VAL_v1::
     FILE VALTargets.cmake
 )
 
@@ -364,9 +364,9 @@ install(FILES
 )
 
 # Export for build tree
-export(TARGETS VAL
-    NAMESPACE VAL::
+export(TARGETS VAL_v1
+    NAMESPACE VAL_v1::
     FILE ${CMAKE_BINARY_DIR}/VALTargets.cmake)
 
 # Register package in user registry
-export(PACKAGE VAL)
+export(PACKAGE VAL_v1)

@@ -29,7 +29,7 @@
 
 #include "ptree.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class WriteController {
    public:
@@ -111,6 +111,6 @@ namespace VAL {
     virtual void write_plan_step(ostream &o, const plan_step *){};
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -15,7 +15,7 @@ using std::map;
 using std::pair;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool Robust;
   extern double RobustPNEJudder;
@@ -169,6 +169,6 @@ namespace VAL {
   plan *newTestPlan(const plan *p);
   void deleteTestPlan(plan *p);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -15,14 +15,14 @@
 using std::cerr;
 using std::ifstream;
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
-  bool varFree(const VAL::parameter_symbol_list *pl) {
-    for (VAL::parameter_symbol_list::const_iterator i = pl->begin();
+  bool varFree(const VAL_v1::parameter_symbol_list *pl) {
+    for (VAL_v1::parameter_symbol_list::const_iterator i = pl->begin();
          i != pl->end(); ++i) {
-      if (!dynamic_cast< const VAL::const_symbol * >(*i)) return false;
+      if (!dynamic_cast< const VAL_v1::const_symbol * >(*i)) return false;
     };
     return true;
   }
@@ -45,20 +45,20 @@ namespace Inst {
   void instantiatedOp::writeAll(ostream &o) { instOps.write(o); };
 
   OpStore instantiatedOp::instOps;
-  map< VAL::pddl_type *, vector< VAL::const_symbol * > > instantiatedOp::values;
+  map< VAL_v1::pddl_type *, vector< VAL_v1::const_symbol * > > instantiatedOp::values;
 
-  void instantiatedOp::instantiate(const VAL::operator_ *op,
-                                   const VAL::problem *prb,
-                                   VAL::TypeChecker &tc) {
+  void instantiatedOp::instantiate(const VAL_v1::operator_ *op,
+                                   const VAL_v1::problem *prb,
+                                   VAL_v1::TypeChecker &tc) {
     FastEnvironment e(
         static_cast< const id_var_symbol_table * >(op->symtab)->numSyms());
-    vector< vector< VAL::const_symbol * >::const_iterator > vals(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > vals(
         op->parameters->size());
-    vector< vector< VAL::const_symbol * >::const_iterator > starts(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > starts(
         op->parameters->size());
-    vector< vector< VAL::const_symbol * >::const_iterator > ends(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > ends(
         op->parameters->size());
-    vector< VAL::var_symbol * > vars(op->parameters->size());
+    vector< VAL_v1::var_symbol * > vars(op->parameters->size());
     int i = 0;
     int c = 1;
     for (var_symbol_list::const_iterator p = op->parameters->begin();
@@ -91,7 +91,7 @@ namespace Inst {
       if (!TIM::selfMutex(op, makeIterator(&e, op->parameters->begin()),
                           makeIterator(&e, op->parameters->end()))) {
         SimpleEvaluator se(&e);
-        const_cast< VAL::operator_ * >(op)->visit(&se);
+        const_cast< VAL_v1::operator_ * >(op)->visit(&se);
         if (!se.reallyFalse()) {
           FastEnvironment *ecpy = e.copy();
           instantiatedOp *o = new instantiatedOp(op, ecpy);
@@ -131,13 +131,13 @@ namespace Inst {
   class Collector : public VisitController {
    private:
     bool adding;
-    const VAL::operator_ *op;
+    const VAL_v1::operator_ *op;
     FastEnvironment *fe;
     LiteralStore &literals;
     PNEStore &pnes;
 
    public:
-    Collector(const VAL::operator_ *o, FastEnvironment *f, LiteralStore &l,
+    Collector(const VAL_v1::operator_ *o, FastEnvironment *f, LiteralStore &l,
               PNEStore &p)
         : adding(true), op(o), fe(f), literals(l), pnes(p){};
 
@@ -193,17 +193,17 @@ namespace Inst {
       adding = whatwas;
       p->assign_effects.pc_list< assignment * >::visit(this);
     };
-    virtual void visit_operator_(VAL::operator_ *p) {
+    virtual void visit_operator_(VAL_v1::operator_ *p) {
       adding = true;
       p->effects->visit(this);
     };
-    virtual void visit_action(VAL::action *p) {
-      visit_operator_(static_cast< VAL::operator_ * >(p));
+    virtual void visit_action(VAL_v1::action *p) {
+      visit_operator_(static_cast< VAL_v1::operator_ * >(p));
     };
-    virtual void visit_durative_action(VAL::durative_action *p) {
-      visit_operator_(static_cast< VAL::operator_ * >(p));
+    virtual void visit_durative_action(VAL_v1::durative_action *p) {
+      visit_operator_(static_cast< VAL_v1::operator_ * >(p));
     };
-    virtual void visit_problem(VAL::problem *p) {
+    virtual void visit_problem(VAL_v1::problem *p) {
       p->initial_state->visit(this);
       p->the_goal->visit(this);
       if (p->constraints) p->constraints->visit(this);
@@ -219,7 +219,7 @@ namespace Inst {
     };
   };
 
-  void instantiatedOp::createAllLiterals(VAL::problem *p) {
+  void instantiatedOp::createAllLiterals(VAL_v1::problem *p) {
     Collector c(0, 0, literals, pnes);
     p->visit(&c);
     for (OpStore::iterator i = instOps.begin(); i != instOps.end(); ++i) {
@@ -236,11 +236,11 @@ namespace Inst {
 
   void instantiatedOp::writeAllPNEs(ostream &o) { pnes.write(o); };
 
-  VAL::const_symbol *const getConst(string name) {
+  VAL_v1::const_symbol *const getConst(string name) {
     return current_analysis->const_tab.symbol_get(name);
   };
 
-  VAL::const_symbol *const getConst(char *name) {
+  VAL_v1::const_symbol *const getConst(char *name) {
     return current_analysis->const_tab.symbol_get(name);
   };
 
@@ -253,31 +253,31 @@ namespace Inst {
     return isGoalMetByEffect(effs, lit);
   };
 
-  bool instantiatedOp::isGoalMetByEffect(const VAL::effect_lists *effs,
+  bool instantiatedOp::isGoalMetByEffect(const VAL_v1::effect_lists *effs,
                                          const Literal *lit) {
-    using VAL::pc_list;
+    using VAL_v1::pc_list;
 
-    for (pc_list< VAL::simple_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::simple_effect * >::const_iterator i =
              effs->add_effects.begin();
          i != effs->add_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::forall_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::forall_effect * >::const_iterator i =
              effs->forall_effects.begin();
          i != effs->forall_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::cond_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::cond_effect * >::const_iterator i =
              effs->cond_effects.begin();
          i != effs->cond_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::cond_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::cond_effect * >::const_iterator i =
              effs->cond_effects.begin();
          i != effs->cond_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::timed_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::timed_effect * >::const_iterator i =
              effs->timed_effects.begin();
          i != effs->timed_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
@@ -285,7 +285,7 @@ namespace Inst {
     return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::simple_effect *seff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::simple_effect *seff,
                                          const Literal *lit) {
     Literal l(seff->prop, env);
     Literal *lt = instantiatedOp::getLiteral(&l);
@@ -293,7 +293,7 @@ namespace Inst {
     return (lit == lt);
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::forall_effect *fleff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::forall_effect *fleff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(fleff->getEffects(), lit))
       return true;
@@ -301,7 +301,7 @@ namespace Inst {
       return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::cond_effect *ceff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::cond_effect *ceff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(ceff->getEffects(), lit))
       return true;
@@ -309,7 +309,7 @@ namespace Inst {
       return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::timed_effect *teff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::timed_effect *teff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(teff->effs, lit))
       return true;

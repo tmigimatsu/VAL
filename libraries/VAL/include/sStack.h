@@ -8,7 +8,7 @@
 
 using std::deque;
 
-namespace VAL {
+namespace VAL_v1 {
   /**
    * Simple Stack.
    * 
@@ -36,6 +36,6 @@ namespace VAL {
     T &top() { return _Base::front(); };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif /* SSTACK_H */

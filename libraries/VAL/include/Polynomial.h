@@ -17,7 +17,7 @@ using std::pair;
 using std::vector;
 
 //#define vector std::vector
-namespace VAL {
+namespace VAL_v1 {
 
   class Polynomial;
   class Comparison;
@@ -246,6 +246,6 @@ namespace VAL {
   Polynomial operator-(const Polynomial& p);
   Polynomial operator/(const Polynomial& p, CoScalar num);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -21,7 +21,7 @@
 
 //#define vector std::vector
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Proposition;
@@ -572,6 +572,6 @@ namespace VAL {
   Polynomial getPoly(const expression *e, bool inc, const ActiveCtsEffects *ace,
                      const Environment *bs, CoScalar endInt = 0);
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

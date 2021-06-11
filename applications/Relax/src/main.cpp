@@ -16,7 +16,7 @@ using std::shared_ptr;
 extern int yyparse();
 extern int yydebug;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern parse_category *top_thing;
 
@@ -28,10 +28,10 @@ namespace VAL {
   extern bool Verbose;
   extern bool LaTeX;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 extern const char *current_filename;
-using namespace VAL;
+using namespace VAL_v1;
 
 /**
  * Maria Fox and Derek Long - PDDL2.2 and VAL

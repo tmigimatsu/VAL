@@ -9,7 +9,7 @@
 
 using std::shared_ptr;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class UnsatCondition {
    protected:
@@ -179,6 +179,6 @@ namespace VAL {
     void displayReport() const;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

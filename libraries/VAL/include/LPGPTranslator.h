@@ -12,7 +12,7 @@
 using std::stringstream;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Environment;
@@ -95,6 +95,6 @@ namespace VAL {
     virtual void write_plan_step(ostream &o, const plan_step *);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -121,7 +121,7 @@ int yyerror(char *);
 
 extern int yylex();
 
-using namespace VAL;
+using namespace VAL_v1;
 
 
 #line 128 "pddl+.cpp" /* yacc.c:339  */
@@ -4787,7 +4787,7 @@ int line_no= 1;
 using std::istream;
 #include "pddl+.lex.yy.h"
 
-namespace VAL {
+namespace VAL_v1 {
 extern yyFlexLexer* yfl;
 };
 

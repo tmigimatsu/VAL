@@ -7,7 +7,7 @@
   using std::cout;
   using std::cerr;
   using std::istream;
-  using namespace VAL;
+  using namespace VAL_v1;
 extern "C" int yywrap();
 
 %}

@@ -12,9 +12,9 @@ using std::map;
 using std::ostream;
 using std::vector;
 
-using VAL::pddl_type;
-using VAL::pred_symbol;
-using VAL::proposition;
+using VAL_v1::pddl_type;
+using VAL_v1::pred_symbol;
+using VAL_v1::proposition;
 
 namespace SAS {
 
@@ -159,7 +159,7 @@ namespace SAS {
 
     void write(ostream &o) const {
       o << "(:action " << op->name->getName() << "\n  :parameters (";
-      for (VAL::var_symbol_list::const_iterator ps = op->parameters->begin();
+      for (VAL_v1::var_symbol_list::const_iterator ps = op->parameters->begin();
            ps != op->parameters->end(); ++ps) {
         o << "?" << (*ps)->getName() << " - " << (*ps)->type->getName() << " ";
       };
@@ -178,7 +178,7 @@ namespace SAS {
       for (vector< proposition * >::const_iterator s = statics.begin();
            s != statics.end(); ++s) {
         cout << "     (" << (*s)->head->getName();
-        for (VAL::parameter_symbol_list::const_iterator pm =
+        for (VAL_v1::parameter_symbol_list::const_iterator pm =
                  (*s)->args->begin();
              pm != (*s)->args->end(); ++pm) {
           cout << " ?" << (*pm)->getName();
@@ -188,7 +188,7 @@ namespace SAS {
       for (vector< proposition * >::const_iterator s = otherpres.begin();
            s != otherpres.end(); ++s) {
         cout << "    (" << (*s)->head->getName();
-        for (VAL::parameter_symbol_list::const_iterator pm =
+        for (VAL_v1::parameter_symbol_list::const_iterator pm =
                  (*s)->args->begin();
              pm != (*s)->args->end(); ++pm) {
           cout << " ?" << (*pm)->getName();
@@ -210,7 +210,7 @@ namespace SAS {
       for (vector< proposition * >::const_iterator s = otherposts.begin();
            s != otherposts.end(); ++s) {
         cout << "    (" << (*s)->head->getName();
-        for (VAL::parameter_symbol_list::const_iterator pm =
+        for (VAL_v1::parameter_symbol_list::const_iterator pm =
                  (*s)->args->begin();
              pm != (*s)->args->end(); ++pm) {
           cout << " ?" << (*pm)->getName();

@@ -4,18 +4,18 @@
 #ifndef __LITERALPROPLINK
 #define __LITERALPROPLINK
 
-namespace VAL {
+namespace VAL_v1 {
   class SimpleProposition;
   class Environment;
-};  // namespace VAL
+};  // namespace VAL_v1
 
 namespace Inst {
 
   class Literal;
   class instantiatedOp;
 
-  Literal *toLiteral(const VAL::SimpleProposition *);
-  VAL::Environment toEnv(instantiatedOp *op);
+  Literal *toLiteral(const VAL_v1::SimpleProposition *);
+  VAL_v1::Environment toEnv(instantiatedOp *op);
 
 };  // namespace Inst
 

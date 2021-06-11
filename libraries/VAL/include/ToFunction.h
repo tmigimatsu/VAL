@@ -17,10 +17,10 @@ using std::set;
 using std::vector;
 
 using namespace TIM;
-using VAL::FastEnvironment;
-using VAL::operator_;
-using VAL::pddl_type;
-using VAL::var_symbol;
+using VAL_v1::FastEnvironment;
+using VAL_v1::operator_;
+using VAL_v1::pddl_type;
+using VAL_v1::var_symbol;
 
 namespace Inst {
   class instantiatedOp;
@@ -281,7 +281,7 @@ namespace SAS {
 
   class VarElement : public VElement {
    private:
-    typedef VAL::parameter_symbol parameter_symbol;
+    typedef VAL_v1::parameter_symbol parameter_symbol;
     const parameter_symbol *var;
 
    public:
@@ -496,7 +496,7 @@ namespace SAS {
     int levels;
     vector< int > unsatisfiedPrecs;
 
-    vector< VAL::proposition * > others;
+    vector< VAL_v1::proposition * > others;
     vector< int > othercounts;
 
    public:

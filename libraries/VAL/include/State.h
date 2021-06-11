@@ -8,15 +8,15 @@
 
 using std::set;
 
-namespace VAL {
+namespace VAL_v1 {
   class Validator;
   class Happening;
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #ifndef __STATE
 #define __STATE
 
-namespace VAL {
+namespace VAL_v1 {
 
   typedef long double FEScalar;
 
@@ -163,6 +163,6 @@ namespace VAL {
     return o;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

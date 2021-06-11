@@ -7,7 +7,7 @@
 #include <iostream>
 using std::ostream;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool Verbose;
   extern bool ContinueAnyway;
@@ -20,6 +20,6 @@ namespace VAL {
   extern bool makespanDefault;
   extern bool stepLengthDefault;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

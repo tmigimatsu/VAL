@@ -9,18 +9,18 @@
 #include "instantiation.h"
 #include "ptree.h"
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
-  Evaluator::Evaluator(Validator *v, const VAL::State *s,
+  Evaluator::Evaluator(Validator *v, const VAL_v1::State *s,
                        Inst::instantiatedOp *op, bool im)
       : vld(v),
         value(true),
         env(toEnv(op)),
         f(op->getEnv()),
         state(s),
-        equality(VAL::current_analysis->pred_tab.symbol_probe("=")),
+        equality(VAL_v1::current_analysis->pred_tab.symbol_probe("=")),
         ignoreMetrics(im),
         context(true){};
 

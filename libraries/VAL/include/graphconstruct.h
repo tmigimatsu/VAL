@@ -12,10 +12,10 @@
 using std::ostream;
 using std::vector;
 
-namespace VAL {
+namespace VAL_v1 {
   class State;
   class Validator;
-};  // namespace VAL
+};  // namespace VAL_v1
 
 namespace Inst {
 
@@ -175,13 +175,13 @@ namespace Inst {
    public:
     static void readDurations(const string &nm) { dursFor.readDurations(nm); };
     bool isActivated(const vector< bool > &actives) const;
-    bool isActivated(VAL::Validator *v, const VAL::State *) const;
-    bool isRelevant(VAL::Validator *v, const VAL::State *) const;
+    bool isActivated(VAL_v1::Validator *v, const VAL_v1::State *) const;
+    bool isRelevant(VAL_v1::Validator *v, const VAL_v1::State *) const;
 
     ActEntry(instantiatedOp *io);
     instantiatedOp *getIO() { return theact; };
     bool isEvent() const {
-      const VAL::event *e = dynamic_cast< const VAL::event * >(theact->forOp());
+      const VAL_v1::event *e = dynamic_cast< const VAL_v1::event * >(theact->forOp());
       return (e != 0);
     };
     bool represents(const instantiatedOp *op) const { return op == theact; };
@@ -232,11 +232,11 @@ namespace Inst {
   class UpdateValue : public Constraint {
    private:
     ActEntry *updater;
-    const VAL::expression *exp;
-    const VAL::assign_op op;
+    const VAL_v1::expression *exp;
+    const VAL_v1::assign_op op;
 
    public:
-    UpdateValue(ActEntry *ae, const VAL::expression *e, const VAL::assign_op o,
+    UpdateValue(ActEntry *ae, const VAL_v1::expression *e, const VAL_v1::assign_op o,
                 BoundedValue *b)
         : Constraint(b), updater(ae), exp(e), op(o){};
     void write(ostream &o) const;
@@ -402,8 +402,8 @@ namespace Inst {
       bval = new PointValue(d);
       constrs.push_back(new InitialValue(bval->copy()));
     };
-    void addUpdatedBy(ActEntry *ae, const VAL::expression *expr,
-                      const VAL::assign_op op, PlanGraph *pg);
+    void addUpdatedBy(ActEntry *ae, const VAL_v1::expression *expr,
+                      const VAL_v1::assign_op op, PlanGraph *pg);
     void write(ostream &o) const;
     BoundedValue *getBV() const { return bval; };
     bool represents(const PNE *pne) const { return pne == thefluent; };
@@ -451,13 +451,13 @@ namespace Inst {
     void activateEntry(ActEntry *);
     void iterateEntry(ActEntry *);
 
-    BoundedValue *update(BoundedValue *bv, const VAL::expression *exp,
-                         const VAL::assign_op op, VAL::FastEnvironment *fenv);
+    BoundedValue *update(BoundedValue *bv, const VAL_v1::expression *exp,
+                         const VAL_v1::assign_op op, VAL_v1::FastEnvironment *fenv);
 
-    vector< ActEntry * > applicableActions(VAL::Validator *v,
-                                           const VAL::State *s);
-    vector< ActEntry * > relevantActions(VAL::Validator *v,
-                                         const VAL::State *s);
+    vector< ActEntry * > applicableActions(VAL_v1::Validator *v,
+                                           const VAL_v1::State *s);
+    vector< ActEntry * > relevantActions(VAL_v1::Validator *v,
+                                         const VAL_v1::State *s);
   };
 
   inline ostream &operator<<(ostream &o, const PlanGraph &pg) {

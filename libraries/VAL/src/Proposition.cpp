@@ -16,7 +16,7 @@
 
 using std::make_pair;
 
-namespace VAL {
+namespace VAL_v1 {
 
   template < class T >
   T max(T &t1, T &t2) {
@@ -3316,4 +3316,4 @@ namespace VAL {
     *report << "\n";
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

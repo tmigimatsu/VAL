@@ -11,7 +11,7 @@
 using std::cerr;
 using std::make_pair;
 
-namespace VAL {
+namespace VAL_v1 {
 
   bool Ownership::ownsForAdd(const Action *a, const SimpleProposition *p) {
     map< const SimpleProposition *,
@@ -415,4 +415,4 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -19,7 +19,7 @@ using std::set;
 
 namespace TIM {
 
-  using namespace VAL;
+  using namespace VAL_v1;
 
   ostream &operator<<(ostream &o, const Property &p) {
     p.write(o);

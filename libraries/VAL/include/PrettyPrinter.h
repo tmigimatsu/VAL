@@ -6,7 +6,7 @@
 
 #include "WriteController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   class PrettyPrinter : public WriteController {
    private:
@@ -69,6 +69,6 @@ namespace VAL {
     virtual void collect_symbols(var_symbol_list &vs, const expression *e);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <functional>
 
-namespace VAL {
+namespace VAL_v1 {
 
   void TypeHierarchy::addDown(const PTypeRef &t1, const PTypeRef &t2) {
     GIC i = downGraph.find(&t1);
@@ -735,4 +735,4 @@ namespace VAL {
     return range(&v);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

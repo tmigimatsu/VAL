@@ -14,7 +14,7 @@ extern int yydebug;
 using std::ifstream;
 using std::ofstream;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool Verbose;
   extern ostream *report;
@@ -29,10 +29,10 @@ namespace VAL {
 
   int PropInfo::x = 0;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 extern const char *current_filename;
-using namespace VAL;
+using namespace VAL_v1;
 
 /**
  * This expects any number of filenames as arguments, although

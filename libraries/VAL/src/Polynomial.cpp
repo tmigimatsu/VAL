@@ -14,7 +14,7 @@ using std::cout;
 //#define vector std::vector
 //#define map std::map
 
-namespace VAL {
+namespace VAL_v1 {
 
   ostream &operator<<(ostream &o, const Intervals &i) {
     i.write(o);
@@ -1784,4 +1784,4 @@ namespace VAL {
     return true;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -11,7 +11,7 @@
 
 using std::cerr;
 
-using namespace VAL;
+using namespace VAL_v1;
 using namespace Inst;
 
 namespace SAS {
@@ -139,8 +139,8 @@ namespace SAS {
            << "\n\n";
     };
 
-    vector< VAL::const_symbol * > cs(theTC->range(pt));
-    for (vector< VAL::const_symbol * >::iterator i = cs.begin(); i != cs.end();
+    vector< VAL_v1::const_symbol * > cs(theTC->range(pt));
+    for (vector< VAL_v1::const_symbol * >::iterator i = cs.begin(); i != cs.end();
          ++i) {
       if ((rngs[TOB(*i)] = constructValue(range, TOB(*i))).size() > 0) {
         SASOUTPUT {

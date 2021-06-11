@@ -36,7 +36,7 @@ using std::map;
 using std::ostream;
 using std::string;
 
-namespace VAL {
+namespace VAL_v1 {
 
   class parse_category;
 
@@ -1906,6 +1906,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif /* PTREE_H */

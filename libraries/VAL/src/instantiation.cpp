@@ -19,7 +19,7 @@ using std::cerr;
 using std::endl;
 using std::ifstream;
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
@@ -41,10 +41,10 @@ namespace Inst {
     return const_cast< index * >(&(*(defItr)));
   };
 
-  bool varFree(const VAL::parameter_symbol_list *pl) {
-    for (VAL::parameter_symbol_list::const_iterator i = pl->begin();
+  bool varFree(const VAL_v1::parameter_symbol_list *pl) {
+    for (VAL_v1::parameter_symbol_list::const_iterator i = pl->begin();
          i != pl->end(); ++i) {
-      if (!dynamic_cast< const VAL::const_symbol * >(*i)) return false;
+      if (!dynamic_cast< const VAL_v1::const_symbol * >(*i)) return false;
     };
     return true;
   }
@@ -197,20 +197,20 @@ namespace Inst {
   OpStore instantiatedOp::instOps;
   DrvStore instantiatedDrv::instDrvs;
 
-  map< VAL::pddl_type *, vector< VAL::const_symbol * > > instantiatedValues;
+  map< VAL_v1::pddl_type *, vector< VAL_v1::const_symbol * > > instantiatedValues;
 
-  map< VAL::pddl_type *, vector< VAL::const_symbol * > >
+  map< VAL_v1::pddl_type *, vector< VAL_v1::const_symbol * > >
       &instantiatedOp::values = instantiatedValues;
-  map< VAL::pddl_type *, vector< VAL::const_symbol * > >
+  map< VAL_v1::pddl_type *, vector< VAL_v1::const_symbol * > >
       &instantiatedDrv::values = instantiatedValues;
 
 #ifndef NDEBUG
-  const VAL::operator_ *instantiatedOp::insistOnOp = 0;
-  vector< VAL::const_symbol * > instantiatedOp::insistOnOpParameters;
+  const VAL_v1::operator_ *instantiatedOp::insistOnOp = 0;
+  vector< VAL_v1::const_symbol * > instantiatedOp::insistOnOpParameters;
   const instantiatedOp *instantiatedOp::opBeforeFiltering = 0;
 #endif
 
-  void instantiatedOp::filterOps(VAL::TypeChecker *const tc) {
+  void instantiatedOp::filterOps(VAL_v1::TypeChecker *const tc) {
     //        cout << "*** Filtering Operators ***\n";
     int offset = 0;
     for (OpStore::iterator i = opsBegin(); !(i == opsEnd()); ++i) {
@@ -234,7 +234,7 @@ namespace Inst {
     instOps.clearUp();
   };
 
-  void instantiatedDrv::filterDrvs(VAL::TypeChecker *const tc) {
+  void instantiatedDrv::filterDrvs(VAL_v1::TypeChecker *const tc) {
     int offset = 0;
     for (DrvStore::iterator i = drvsBegin(); !(i == drvsEnd()); ++i) {
       SimpleEvaluator se(tc, (*i)->getEnv(), LSE(literals));
@@ -886,7 +886,7 @@ namespace Inst {
   class InstQueueEntry {
 
   public:
-          vector<VAL::const_symbol *> vars;
+          vector<VAL_v1::const_symbol *> vars;
           int assignNext;
 
           InstQueueEntry(const int & i) : vars(i,0), assignNext(i-1) {};
@@ -894,18 +894,18 @@ namespace Inst {
   };
   */
   struct ConstSymbolLT {
-    bool operator()(const VAL::const_symbol *const a,
-                    const VAL::const_symbol *const b) const {
+    bool operator()(const VAL_v1::const_symbol *const a,
+                    const VAL_v1::const_symbol *const b) const {
       return (a->getName() < b->getName());
     }
   };
 
   class PDCIterator;
 
-  class ParameterDomainConstraints : public VAL::VisitController {
+  class ParameterDomainConstraints : public VAL_v1::VisitController {
    protected:
-    typedef map< const VAL::const_symbol *const, int, ConstSymbolLT > pviLookup;
-    //	const VAL::operator_ * const op;
+    typedef map< const VAL_v1::const_symbol *const, int, ConstSymbolLT > pviLookup;
+    //	const VAL_v1::operator_ * const op;
     /** How many parameters the operator has */
     const int varCount;
 
@@ -930,7 +930,7 @@ namespace Inst {
      * corresponding to setting parameter <code>a</code> to the value
      *  <code>b</code> is the entry <code>[a][b]</code>.
      */
-    vector< vector< VAL::const_symbol * > > possibleParameterValues;
+    vector< vector< VAL_v1::const_symbol * > > possibleParameterValues;
 
     /**
      * For each action parameter, a map from which values are type-correct to
@@ -941,10 +941,10 @@ namespace Inst {
 
     /** The symbols used in the action definition for each parameter (e.g.
      * <code>?a</code>, <code>?b</code>) */
-    vector< VAL::parameter_symbol * > vars;
+    vector< VAL_v1::parameter_symbol * > vars;
 
     /** The symbol denoting the equality predicate */
-    VAL::pred_symbol *const equality;
+    VAL_v1::pred_symbol *const equality;
 
     /**
      * If the front element is <code>true</code>, then when visiting leaf nodes
@@ -976,12 +976,12 @@ namespace Inst {
 
     template < typename T >
     ParameterDomainConstraints(T *parameters, const string &name,
-                               VAL::TypeChecker &tc)
+                               VAL_v1::TypeChecker &tc)
         : varCount(parameters->size()),
           possibleParameterValues(varCount),
           parameterValuesToIndices(varCount),
           vars(varCount),
-          equality(VAL::current_analysis->pred_tab.symbol_probe("=")) {
+          equality(VAL_v1::current_analysis->pred_tab.symbol_probe("=")) {
       {
         int i = 0;
         for (typename T::const_iterator p = parameters->begin();
@@ -1042,7 +1042,7 @@ namespace Inst {
       /*for (int v = 0; v < varCount; ++v) {
        pair<bool,set<int> > & currPair = domainQueue.front().domains[v];
        if (!currPair.first) {
-        vector<VAL::const_symbol*> usedToBe(currPair.second.size(),0);
+        vector<VAL_v1::const_symbol*> usedToBe(currPair.second.size(),0);
         usedToBe.swap(possibleParameterValues[v]);
 
         set<int>::iterator ndItr = currPair.second.begin();
@@ -1067,7 +1067,7 @@ namespace Inst {
 
    public:
 #ifndef NDEBUG
-    const vector< vector< VAL::const_symbol * > > &getPossibleParameterValues()
+    const vector< vector< VAL_v1::const_symbol * > > &getPossibleParameterValues()
         const {
       return possibleParameterValues;
     }
@@ -1099,7 +1099,7 @@ namespace Inst {
      * any type-correct binding for the mentioned parameters is assumed to be
      * reasonable.  @see domainStack, panic
      */
-    virtual void visit_simple_goal(VAL::simple_goal *s) {
+    virtual void visit_simple_goal(VAL_v1::simple_goal *s) {
 #ifndef NDEBUG
       const bool jpdcDebug = beVerbose();
 #else
@@ -1151,8 +1151,8 @@ namespace Inst {
       vector< int > parameterIndex(affects, -1);
 
       // Constant symbols embedded in predicates, e.g. (on ?x table)
-      vector< const VAL::const_symbol * > hasToMatch(affects,
-                                                     (VAL::const_symbol *)0);
+      vector< const VAL_v1::const_symbol * > hasToMatch(affects,
+                                                     (VAL_v1::const_symbol *)0);
 
       // New set of permissible domain values for the action parameter
       // corresponding to predicate argument i
@@ -1172,15 +1172,15 @@ namespace Inst {
       int affWithBiggestParam = -1;
       int biggestParam = -1;
 
-      VAL::parameter_symbol_list::iterator argItr = s->getProp()->args->begin();
+      VAL_v1::parameter_symbol_list::iterator argItr = s->getProp()->args->begin();
       for (int aff = 0; aff < affects; ++aff, ++argItr) {
-        if (const VAL::const_symbol *const c =
-                dynamic_cast< const VAL::const_symbol * >(*argItr)) {
+        if (const VAL_v1::const_symbol *const c =
+                dynamic_cast< const VAL_v1::const_symbol * >(*argItr)) {
           if (debug) cout << "\tArgument " << aff << " is constant\n";
           hasToMatch[aff] = c;
         } else {
           const int paramID =
-              static_cast< const VAL::IDsymbol< VAL::var_symbol > * >(*argItr)
+              static_cast< const VAL_v1::IDsymbol< VAL_v1::var_symbol > * >(*argItr)
                   ->getId();
           if (inPanic) {
             panic.front().insert(paramID);
@@ -1257,23 +1257,23 @@ namespace Inst {
       const list< IState::iterator >::const_iterator predEnd = checkInit.end();
 
       for (; predItr != predEnd; ++predItr) {
-        vector< VAL::parameter_symbol_list * >::iterator groundItr =
+        vector< VAL_v1::parameter_symbol_list * >::iterator groundItr =
             (*predItr)->second.begin();
-        const vector< VAL::parameter_symbol_list * >::iterator groundEnd =
+        const vector< VAL_v1::parameter_symbol_list * >::iterator groundEnd =
             (*predItr)->second.end();
 
         // Loop over each instance of the predicate in the initial state
         for (; groundItr != groundEnd; ++groundItr, ++gi) {
           bool keep = true;
           {
-            VAL::parameter_symbol_list::iterator wwItr = (*groundItr)->begin();
-            const VAL::parameter_symbol_list::iterator wwEnd =
+            VAL_v1::parameter_symbol_list::iterator wwItr = (*groundItr)->begin();
+            const VAL_v1::parameter_symbol_list::iterator wwEnd =
                 (*groundItr)->end();
 
             for (int aff = 0; wwItr != wwEnd; ++wwItr, ++aff) {
-              const VAL::parameter_symbol *const weWant = *wwItr;
-              const VAL::const_symbol *const asConst =
-                  dynamic_cast< const VAL::const_symbol * >(weWant);
+              const VAL_v1::parameter_symbol *const weWant = *wwItr;
+              const VAL_v1::const_symbol *const asConst =
+                  dynamic_cast< const VAL_v1::const_symbol * >(weWant);
               assert(asConst);
 
               if (hasToMatch[aff]) {
@@ -1326,9 +1326,9 @@ namespace Inst {
             if (jpdcDebug || debug) {
               cout << "\t\tConsistent static fact " << gi << ": ("
                    << hps->getName();
-              VAL::parameter_symbol_list::iterator wwItr =
+              VAL_v1::parameter_symbol_list::iterator wwItr =
                   (*groundItr)->begin();
-              const VAL::parameter_symbol_list::iterator wwEnd =
+              const VAL_v1::parameter_symbol_list::iterator wwEnd =
                   (*groundItr)->end();
               for (; wwItr != wwEnd; ++wwItr) {
                 cout << " " << (*wwItr)->getName();
@@ -1434,7 +1434,7 @@ namespace Inst {
 
     /** Stub code to visit quantified goals.  For now, do nothing.  @see
      * blindPanic */
-    virtual void visit_qfied_goal(VAL::qfied_goal *) {
+    virtual void visit_qfied_goal(VAL_v1::qfied_goal *) {
       if (doUnion.front()) {
         blindPanic();
       }
@@ -1447,7 +1447,7 @@ namespace Inst {
      * the intersection of their constraints is taken, i.e. all must be
      * respected.
      */
-    virtual void visit_conj_goal(VAL::conj_goal *c) {
+    virtual void visit_conj_goal(VAL_v1::conj_goal *c) {
       static const bool conjDebug = false;
       const bool haveSpecial = rootSpecial;
       rootSpecial = false;
@@ -1496,7 +1496,7 @@ namespace Inst {
      * the union of their constraints is taken, i.e. at least one must be
      * respected.
      */
-    virtual void visit_disj_goal(VAL::disj_goal *c) {
+    virtual void visit_disj_goal(VAL_v1::disj_goal *c) {
       domainStack.push_front(domainStack.front());
 
       doUnion.push_front(true);
@@ -1534,54 +1534,54 @@ namespace Inst {
      * Visit timed PDDL goals (<code>at start</code> etc.).  We assume the time
      * specifier can be stripped.
      */
-    virtual void visit_timed_goal(VAL::timed_goal *t) {
+    virtual void visit_timed_goal(VAL_v1::timed_goal *t) {
       t->getGoal()->visit(this);
     }
 
     /** Stub code to visit implication goals.  For now, do nothing.  @see
      * blindPanic */
-    virtual void visit_imply_goal(VAL::imply_goal *) { blindPanic(); }
+    virtual void visit_imply_goal(VAL_v1::imply_goal *) { blindPanic(); }
 
     /** Stub code to visit negative goals.  For now, do nothing.  @see
      * blindPanic
      */
-    virtual void visit_neg_goal(VAL::neg_goal *) { blindPanic(); }
+    virtual void visit_neg_goal(VAL_v1::neg_goal *) { blindPanic(); }
 
     /** Stub code to visit numeric goals.  For now, these are ignored - any
      * domain
      * constraints are determined solely from the logical preconditions. */
-    virtual void visit_comparison(VAL::comparison *){};
-    virtual void visit_preference(VAL::preference *){};
-    virtual void visit_event(VAL::event *e) {
+    virtual void visit_comparison(VAL_v1::comparison *){};
+    virtual void visit_preference(VAL_v1::preference *){};
+    virtual void visit_event(VAL_v1::event *e) {
       if (e->precondition) e->precondition->visit(this);
     };
-    virtual void visit_process(VAL::process *p) {
+    virtual void visit_process(VAL_v1::process *p) {
       if (p->precondition) p->precondition->visit(this);
     };
-    virtual void visit_action(VAL::action *o) {
+    virtual void visit_action(VAL_v1::action *o) {
       if (o->precondition) o->precondition->visit(this);
     };
-    virtual void visit_derivation_rule(VAL::derivation_rule *drv) {
+    virtual void visit_derivation_rule(VAL_v1::derivation_rule *drv) {
       if (drv->get_body()) drv->get_body()->visit(this);
     };
-    virtual void visit_durative_action(VAL::durative_action *o) {
+    virtual void visit_durative_action(VAL_v1::durative_action *o) {
       if (o->precondition) o->precondition->visit(this);
     };
 
-    virtual void visit_plus_expression(VAL::plus_expression *s){};
-    virtual void visit_minus_expression(VAL::minus_expression *s){};
-    virtual void visit_mul_expression(VAL::mul_expression *s){};
-    virtual void visit_div_expression(VAL::div_expression *s){};
-    virtual void visit_uminus_expression(VAL::uminus_expression *s){};
-    virtual void visit_int_expression(VAL::int_expression *s){};
-    virtual void visit_float_expression(VAL::float_expression *s){};
-    virtual void visit_special_val_expr(VAL::special_val_expr *s){};
-    virtual void visit_func_term(VAL::func_term *s){};
+    virtual void visit_plus_expression(VAL_v1::plus_expression *s){};
+    virtual void visit_minus_expression(VAL_v1::minus_expression *s){};
+    virtual void visit_mul_expression(VAL_v1::mul_expression *s){};
+    virtual void visit_div_expression(VAL_v1::div_expression *s){};
+    virtual void visit_uminus_expression(VAL_v1::uminus_expression *s){};
+    virtual void visit_int_expression(VAL_v1::int_expression *s){};
+    virtual void visit_float_expression(VAL_v1::float_expression *s){};
+    virtual void visit_special_val_expr(VAL_v1::special_val_expr *s){};
+    virtual void visit_func_term(VAL_v1::func_term *s){};
 
     virtual void fleshOut(
-        vector< vector< VAL::const_symbol * >::const_iterator > &vals,
-        vector< vector< VAL::const_symbol * >::const_iterator > &starts,
-        vector< vector< VAL::const_symbol * >::const_iterator > &ends, int &c) {
+        vector< vector< VAL_v1::const_symbol * >::const_iterator > &vals,
+        vector< vector< VAL_v1::const_symbol * >::const_iterator > &starts,
+        vector< vector< VAL_v1::const_symbol * >::const_iterator > &ends, int &c) {
       for (int i = 0; i < varCount; ++i) {
         vals[i] = starts[i] = possibleParameterValues[i].begin();
         ends[i] = possibleParameterValues[i].end();
@@ -1604,7 +1604,7 @@ namespace Inst {
    protected:
     /** @brief The operator for which parameter domain constraints are being
      * constructed. */
-    const VAL::operator_ *const op;
+    const VAL_v1::operator_ *const op;
 
     virtual void propagate() {
       while (!updateFrom.empty()) {
@@ -1643,8 +1643,8 @@ namespace Inst {
 #endif
 
    public:
-    OperatorParameterDomainConstraints(const VAL::operator_ *const opIn,
-                                       VAL::TypeChecker &tc)
+    OperatorParameterDomainConstraints(const VAL_v1::operator_ *const opIn,
+                                       VAL_v1::TypeChecker &tc)
         : ParameterDomainConstraints(opIn->parameters, opIn->name->getName(),
                                      tc),
           op(opIn) {
@@ -1657,7 +1657,7 @@ namespace Inst {
    protected:
     /** @brief The derivation rule for which parameter domain constraints are
      * being constructed. */
-    const VAL::derivation_rule *const rule;
+    const VAL_v1::derivation_rule *const rule;
 
     virtual void propagate() {
       while (!updateFrom.empty()) {
@@ -1676,7 +1676,7 @@ namespace Inst {
 
    public:
     DerivationRuleParameterDomainConstraints(
-        const VAL::derivation_rule *const ruleIn, VAL::TypeChecker &tc)
+        const VAL_v1::derivation_rule *const ruleIn, VAL_v1::TypeChecker &tc)
         : ParameterDomainConstraints(ruleIn->get_head()->args,
                                      ruleIn->get_head()->head->getName(), tc),
           rule(ruleIn) {
@@ -1943,7 +1943,7 @@ namespace Inst {
     }
 
     /** Return the current binding for the specified parameter */
-    inline VAL::const_symbol *&operator[](const int &i) const {
+    inline VAL_v1::const_symbol *&operator[](const int &i) const {
       assert(i >= 0 && i < varCount);
       return parent->possibleParameterValues[i][*(valItrs[i])];
     }
@@ -2016,9 +2016,9 @@ namespace Inst {
     return new PDCIterator(this);
   }
 
-  void instantiatedOp::instantiate(const VAL::operator_ *op,
-                                   const VAL::problem *prb,
-                                   VAL::TypeChecker &tc) {
+  void instantiatedOp::instantiate(const VAL_v1::operator_ *op,
+                                   const VAL_v1::problem *prb,
+                                   VAL_v1::TypeChecker &tc) {
     FastEnvironment e(
         static_cast< const id_var_symbol_table * >(op->symtab)->numSyms());
 
@@ -2029,9 +2029,9 @@ namespace Inst {
 #ifndef NDEBUG
     if (insistOnOp && insistOnOp == op) {
       for (int p = 0; p < opParamCount; ++p) {
-        vector< VAL::const_symbol * >::const_iterator pItr =
+        vector< VAL_v1::const_symbol * >::const_iterator pItr =
             pdc.getPossibleParameterValues()[p].begin();
-        const vector< VAL::const_symbol * >::const_iterator pEnd =
+        const vector< VAL_v1::const_symbol * >::const_iterator pEnd =
             pdc.getPossibleParameterValues()[p].end();
 
         for (; pItr != pEnd; ++pItr) {
@@ -2067,7 +2067,7 @@ namespace Inst {
       return;
     };
 
-    vector< VAL::var_symbol * > vars(opParamCount);
+    vector< VAL_v1::var_symbol * > vars(opParamCount);
 
     {
       int i = 0;
@@ -2088,7 +2088,7 @@ namespace Inst {
       if (!TIM::selfMutex(op, makeIterator(&e, op->parameters->begin()),
                           makeIterator(&e, op->parameters->end()))) {
         se.prepareForVisit(&e);
-        const_cast< VAL::operator_ * >(op)->visit(&se);
+        const_cast< VAL_v1::operator_ * >(op)->visit(&se);
         if (!se.reallyFalse()) {
           FastEnvironment *ecpy = e.copy();
           instantiatedOp *o = new instantiatedOp(op, ecpy);
@@ -2150,9 +2150,9 @@ namespace Inst {
     }
   };
 
-  void instantiatedDrv::instantiate(const VAL::derivation_rule *op,
-                                    const VAL::problem *prb,
-                                    VAL::TypeChecker &tc) {
+  void instantiatedDrv::instantiate(const VAL_v1::derivation_rule *op,
+                                    const VAL_v1::problem *prb,
+                                    VAL_v1::TypeChecker &tc) {
     FastEnvironment e(
         static_cast< const id_var_symbol_table * >(op->get_vars())->numSyms());
 
@@ -2175,7 +2175,7 @@ namespace Inst {
       return;
     };
 
-    vector< VAL::parameter_symbol * > vars(opParamCount);
+    vector< VAL_v1::parameter_symbol * > vars(opParamCount);
 
     {
       int i = 0;
@@ -2196,7 +2196,7 @@ namespace Inst {
 
       {
         se.prepareForVisit(&e);
-        const_cast< VAL::derivation_rule * >(op)->visit(&se);
+        const_cast< VAL_v1::derivation_rule * >(op)->visit(&se);
         if (!se.reallyFalse()) {
           FastEnvironment *ecpy = e.copy();
           instantiatedDrv *o = new instantiatedDrv(op, ecpy);
@@ -2222,10 +2222,10 @@ namespace Inst {
 
   class Collector : public VisitController {
    private:
-    VAL::TypeChecker *tc;
+    VAL_v1::TypeChecker *tc;
     bool adding;
-    const VAL::operator_ *op;
-    const VAL::derivation_rule *drv;
+    const VAL_v1::operator_ *op;
+    const VAL_v1::derivation_rule *drv;
     FastEnvironment *fe;
     LiteralStore &literals;
     PNEStore &pnes;
@@ -2235,8 +2235,8 @@ namespace Inst {
     bool onlyCollectEffects;
 
    public:
-    Collector(const VAL::operator_ *o, FastEnvironment *f, LiteralStore &l,
-              PNEStore &p, VAL::TypeChecker *t = 0)
+    Collector(const VAL_v1::operator_ *o, FastEnvironment *f, LiteralStore &l,
+              PNEStore &p, VAL_v1::TypeChecker *t = 0)
         : tc(t),
           adding(true),
           op(o),
@@ -2248,8 +2248,8 @@ namespace Inst {
           checkpos(true),
           onlyCollectEffects(true){};
 
-    Collector(const VAL::derivation_rule *o, FastEnvironment *f,
-              LiteralStore &l, PNEStore &p, VAL::TypeChecker *t = 0)
+    Collector(const VAL_v1::derivation_rule *o, FastEnvironment *f,
+              LiteralStore &l, PNEStore &p, VAL_v1::TypeChecker *t = 0)
         : tc(t),
           adding(true),
           op(0),
@@ -2263,9 +2263,9 @@ namespace Inst {
 
     virtual void visit_simple_goal(simple_goal *p) {
       if (onlyCollectEffects) return;
-      VAL::extended_pred_symbol *s = EPS(p->getProp()->head);
+      VAL_v1::extended_pred_symbol *s = EPS(p->getProp()->head);
 
-      if (VAL::current_analysis->pred_tab.symbol_probe("=") == s->getParent()) {
+      if (VAL_v1::current_analysis->pred_tab.symbol_probe("=") == s->getParent()) {
         return;
       };
       if (!inpres || (p->getPolarity() && !checkpos) ||
@@ -2279,13 +2279,13 @@ namespace Inst {
       };
     };
     virtual void visit_qfied_goal(qfied_goal *p) {
-      vector< vector< VAL::const_symbol * >::const_iterator > vals(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > vals(
           p->getVars()->size());
-      vector< vector< VAL::const_symbol * >::const_iterator > starts(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > starts(
           p->getVars()->size());
-      vector< vector< VAL::const_symbol * >::const_iterator > ends(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > ends(
           p->getVars()->size());
-      vector< VAL::var_symbol * > vars(p->getVars()->size());
+      vector< VAL_v1::var_symbol * > vars(p->getVars()->size());
       fe->extend(vars.size());
       int i = 0;
       int c = 1;
@@ -2360,13 +2360,13 @@ namespace Inst {
 
     virtual void visit_forall_effect(forall_effect *p) {
       //		p->getEffects()->visit(this);
-      vector< vector< VAL::const_symbol * >::const_iterator > vals(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > vals(
           p->getVarsList()->size());
-      vector< vector< VAL::const_symbol * >::const_iterator > starts(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > starts(
           p->getVarsList()->size());
-      vector< vector< VAL::const_symbol * >::const_iterator > ends(
+      vector< vector< VAL_v1::const_symbol * >::const_iterator > ends(
           p->getVarsList()->size());
-      vector< VAL::var_symbol * > vars(p->getVarsList()->size());
+      vector< VAL_v1::var_symbol * > vars(p->getVarsList()->size());
       fe->extend(vars.size());
       int i = 0;
       int c = 1;
@@ -2428,7 +2428,7 @@ namespace Inst {
       adding = whatwas;
       p->assign_effects.pc_list< assignment * >::visit(this);
     };
-    virtual void visit_operator_(VAL::operator_ *p) {
+    virtual void visit_operator_(VAL_v1::operator_ *p) {
       inpres = true;
       checkpos = true;
       if (p->precondition) p->precondition->visit(this);
@@ -2438,7 +2438,7 @@ namespace Inst {
       p->effects->visit(this);
     };
 
-    virtual void visit_derivation_rule(VAL::derivation_rule *p) {
+    virtual void visit_derivation_rule(VAL_v1::derivation_rule *p) {
       inpres = true;
       checkpos = true;
       if (p->get_body()) p->get_body()->visit(this);
@@ -2453,15 +2453,15 @@ namespace Inst {
       }
     };
 
-    virtual void visit_action(VAL::action *p) {
-      visit_operator_(p);  // static_cast<VAL::operator_*>(p));
+    virtual void visit_action(VAL_v1::action *p) {
+      visit_operator_(p);  // static_cast<VAL_v1::operator_*>(p));
     };
-    virtual void visit_durative_action(VAL::durative_action *p) {
-      visit_operator_(p);  // static_cast<VAL::operator_*>(p));
+    virtual void visit_durative_action(VAL_v1::durative_action *p) {
+      visit_operator_(p);  // static_cast<VAL_v1::operator_*>(p));
     };
-    virtual void visit_process(VAL::process *p) { visit_operator_(p); };
-    virtual void visit_event(VAL::event *p) { visit_operator_(p); };
-    virtual void visit_problem(VAL::problem *p) {
+    virtual void visit_process(VAL_v1::process *p) { visit_operator_(p); };
+    virtual void visit_event(VAL_v1::event *p) { visit_operator_(p); };
+    virtual void visit_problem(VAL_v1::problem *p) {
       p->initial_state->visit(this);
       inpres = false;
       p->the_goal->visit(this);
@@ -2477,11 +2477,11 @@ namespace Inst {
     };
   };
 
-  void instantiatedOp::createAllLiterals(VAL::problem *p,
-                                         VAL::TypeChecker *tc) {
+  void instantiatedOp::createAllLiterals(VAL_v1::problem *p,
+                                         VAL_v1::TypeChecker *tc) {
     literals.clear();
     assert(!howManyLiteralsOfAnySort());
-    Collector c((VAL::operator_ *)0, 0, literals, pnes, tc);
+    Collector c((VAL_v1::operator_ *)0, 0, literals, pnes, tc);
     p->visit(&c);
     for (OpStore::iterator i = instOps.begin(); i != instOps.end(); ++i) {
       (*i)->collectLiterals(tc);
@@ -2490,19 +2490,19 @@ namespace Inst {
     instantiatedDrv::createAllLiterals(p, tc);
   };
 
-  void instantiatedOp::collectLiterals(VAL::TypeChecker *tc) {
+  void instantiatedOp::collectLiterals(VAL_v1::TypeChecker *tc) {
     Collector c(op, env, literals, pnes, tc);
     op->visit(&c);
   };
 
-  void instantiatedDrv::createAllLiterals(VAL::problem *,
-                                          VAL::TypeChecker *tc) {
+  void instantiatedDrv::createAllLiterals(VAL_v1::problem *,
+                                          VAL_v1::TypeChecker *tc) {
     for (DrvStore::iterator i = instDrvs.begin(); i != instDrvs.end(); ++i) {
       (*i)->collectLiterals(tc);
     };
   };
 
-  void instantiatedDrv::collectLiterals(VAL::TypeChecker *tc) {
+  void instantiatedDrv::collectLiterals(VAL_v1::TypeChecker *tc) {
     //	cout << "Collecting literals for "; write(cout); cout << "\n";
     Collector c(op, env, literals, pnes, tc);
     op->visit(&c);
@@ -2512,11 +2512,11 @@ namespace Inst {
 
   void instantiatedOp::writeAllPNEs(ostream &o) { pnes.write(o); };
 
-  VAL::const_symbol *const getConst(string name) {
+  VAL_v1::const_symbol *const getConst(string name) {
     return current_analysis->const_tab.symbol_get(name);
   };
 
-  VAL::const_symbol *const getConst(const char *name) {
+  VAL_v1::const_symbol *const getConst(const char *name) {
     return current_analysis->const_tab.symbol_get(name);
   };
 
@@ -2529,31 +2529,31 @@ namespace Inst {
     return isGoalMetByEffect(effs, lit);
   };
 
-  bool instantiatedOp::isGoalMetByEffect(const VAL::effect_lists *effs,
+  bool instantiatedOp::isGoalMetByEffect(const VAL_v1::effect_lists *effs,
                                          const Literal *lit) {
-    using VAL::pc_list;
+    using VAL_v1::pc_list;
 
-    for (pc_list< VAL::simple_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::simple_effect * >::const_iterator i =
              effs->add_effects.begin();
          i != effs->add_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::forall_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::forall_effect * >::const_iterator i =
              effs->forall_effects.begin();
          i != effs->forall_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::cond_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::cond_effect * >::const_iterator i =
              effs->cond_effects.begin();
          i != effs->cond_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::cond_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::cond_effect * >::const_iterator i =
              effs->cond_effects.begin();
          i != effs->cond_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
     };
-    for (pc_list< VAL::timed_effect * >::const_iterator i =
+    for (pc_list< VAL_v1::timed_effect * >::const_iterator i =
              effs->timed_effects.begin();
          i != effs->timed_effects.end(); ++i) {
       if (isGoalMetByEffect(*i, lit)) return true;
@@ -2561,7 +2561,7 @@ namespace Inst {
     return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::simple_effect *seff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::simple_effect *seff,
                                          const Literal *lit) {
     Literal l(seff->prop, env);
     Literal *lt = instantiatedOp::getLiteral(&l);
@@ -2569,7 +2569,7 @@ namespace Inst {
     return (lit == lt);
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::forall_effect *fleff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::forall_effect *fleff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(fleff->getEffects(), lit))
       return true;
@@ -2577,7 +2577,7 @@ namespace Inst {
       return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::cond_effect *ceff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::cond_effect *ceff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(ceff->getEffects(), lit))
       return true;
@@ -2585,7 +2585,7 @@ namespace Inst {
       return false;
   };
 
-  bool instantiatedOp::isGoalMetByEffect(VAL::timed_effect *teff,
+  bool instantiatedOp::isGoalMetByEffect(VAL_v1::timed_effect *teff,
                                          const Literal *lit) {
     if (isGoalMetByEffect(teff->effs, lit))
       return true;

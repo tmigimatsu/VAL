@@ -18,7 +18,7 @@ using std::string;
 extern int line_no;             // Line number global
 extern const char *current_filename;  // file global
 
-namespace VAL {
+namespace VAL_v1 {
 
   enum error_severity { E_WARNING, E_FATAL };
 
@@ -82,6 +82,6 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif /* PARSE_ERROR_H */

@@ -16,7 +16,7 @@ using std::set;
 #ifndef __ACTION
 #define __ACTION
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Ownership;
@@ -431,6 +431,6 @@ namespace VAL {
     return bindings;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

@@ -13,7 +13,7 @@ using std::vector;
 
 //#define vector std::vector
 
-namespace VAL {
+namespace VAL_v1 {
 
   class PTypeRef;
   class UTypeRef;
@@ -143,6 +143,6 @@ namespace VAL {
     bool isLeafType(const pddl_type *t);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

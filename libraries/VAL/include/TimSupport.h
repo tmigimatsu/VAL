@@ -35,7 +35,7 @@ namespace TIM {
 
   class Property {
    private:
-    VAL::pred_symbol *predicate;
+    VAL_v1::pred_symbol *predicate;
     int posn;
 
     vector< PropertySpace * > belongTo;
@@ -47,7 +47,7 @@ namespace TIM {
    public:
     Property() : predicate(0), isSV(false), isReq(false){};
 
-    Property(VAL::pred_symbol *p, int a)
+    Property(VAL_v1::pred_symbol *p, int a)
         : predicate(p), posn(a), isSV(false), isReq(false){};
     void setSV(bool sv, bool rq) {
       isSV = sv;
@@ -81,14 +81,14 @@ namespace TIM {
     ObjectIt oBegin() { return exhibitors.begin(); };
     ObjectIt oEnd() { return exhibitors.end(); };
 
-    Property *getBaseProperty(const VAL::pddl_type *pt) const;
+    Property *getBaseProperty(const VAL_v1::pddl_type *pt) const;
     vector< Property * > matchers();
-    bool matches(const VAL::extended_pred_symbol *prop, VAL::pddl_type *pt);
+    bool matches(const VAL_v1::extended_pred_symbol *prop, VAL_v1::pddl_type *pt);
 
-    bool applicableTo(VAL::TypeChecker &tc, const VAL::pddl_type *tp) const;
+    bool applicableTo(VAL_v1::TypeChecker &tc, const VAL_v1::pddl_type *tp) const;
     int familySize() const { return EPS(predicate)->arity(); };
     int aPosn() const { return posn; };
-    const VAL::extended_pred_symbol *root() const { return EPS(predicate); };
+    const VAL_v1::extended_pred_symbol *root() const { return EPS(predicate); };
     bool equivalent(const Property *p) const;
   };
 
@@ -96,9 +96,9 @@ namespace TIM {
 
   struct setUpProps {
     unsigned int a;
-    VAL::pred_symbol *pred;
+    VAL_v1::pred_symbol *pred;
 
-    setUpProps(VAL::pred_symbol *p) : a(0), pred(p){};
+    setUpProps(VAL_v1::pred_symbol *p) : a(0), pred(p){};
 
     void operator()(Property &p) {
       p = Property(pred, a);
@@ -106,14 +106,14 @@ namespace TIM {
     };
   };
 
-  class TIMpredSymbol : public VAL::extended_pred_symbol {
+  class TIMpredSymbol : public VAL_v1::extended_pred_symbol {
    private:
     vector< Property > props;
     typedef map< TIMpredSymbol *, vector< pair< int, int > > > MutexRecords;
     MutexRecords mutexes;
 
    public:
-    TIMpredSymbol(VAL::pred_symbol *p, VAL::proposition *q)
+    TIMpredSymbol(VAL_v1::pred_symbol *p, VAL_v1::proposition *q)
         : extended_pred_symbol(p, q), props(q->args->size()) {
       for_each(props.begin(), props.end(), setUpProps(this));
     };
@@ -159,16 +159,16 @@ namespace TIM {
 #define cTPS(x) \
   const_cast< TIMpredSymbol * >(static_cast< const TIMpredSymbol * >(x))
 
-  class TIMobjectSymbol : public VAL::const_symbol {
+  class TIMobjectSymbol : public VAL_v1::const_symbol {
    private:
     vector< Property * > initial;
-    vector< VAL::proposition * > initialps;
+    vector< VAL_v1::proposition * > initialps;
     vector< Property * > final;
     vector< PropertySpace * > spaces;
 
    public:
     TIMobjectSymbol(const string &s) : const_symbol(s){};
-    void addInitial(Property *p, VAL::proposition *prp) {
+    void addInitial(Property *p, VAL_v1::proposition *prp) {
       initial.push_back(p);
       initialps.push_back(prp);
     };
@@ -177,8 +177,8 @@ namespace TIM {
     void distributeStates(TIMAnalyser *tan);
     void write(ostream &o) const { o << getName(); };
 
-    const vector< VAL::proposition * > &getInits() const { return initialps; };
-    VAL::proposition *find(const Property *p) const {
+    const vector< VAL_v1::proposition * > &getInits() const { return initialps; };
+    VAL_v1::proposition *find(const Property *p) const {
       for (vector< Property * >::const_iterator i = initial.begin();
            i != initial.end(); ++i) {
         if (p && p->equivalent(*i)) {
@@ -236,7 +236,7 @@ namespace TIM {
 
    public:
     template < class TI >
-    static PropertyState *getPS(TIMAnalyser *tan, const VAL::pddl_type *pt,
+    static PropertyState *getPS(TIMAnalyser *tan, const VAL_v1::pddl_type *pt,
                                 TI s, TI e) {
       vector< Property * > props;
       transform(s, e, inserter(props, props.begin()),
@@ -382,7 +382,7 @@ namespace TIM {
     //	void assembleMutexes(TransitionRule *,Property *);
     void assembleMutexes(Property *);
     void assembleMutexes(Property *, Property *);
-    void assembleMutexes(VAL::operator_ *, const mRec &);
+    void assembleMutexes(VAL_v1::operator_ *, const mRec &);
     void recordRulesInActions();
     void add(PropertyState *ps) { states.insert(ps); };
     void add(TIMobjectSymbol *t) { objects.push_back(t); };
@@ -400,7 +400,7 @@ namespace TIM {
     bool examine(vector< PropertySpace * > &);
     PropertySpace *slice(Property *p);
 
-    bool applicableTo(VAL::TypeChecker &tc, const VAL::pddl_type *tp) const;
+    bool applicableTo(VAL_v1::TypeChecker &tc, const VAL_v1::pddl_type *tp) const;
 
     typedef set< PropertyState * >::const_iterator SIterator;
     SIterator begin() const { return states.begin(); };
@@ -419,15 +419,15 @@ namespace TIM {
   class TransitionRule {
    private:
     TIMAnalyser *tan;
-    VAL::operator_ *op;
-    VAL::derivation_rule *drv;
+    VAL_v1::operator_ *op;
+    VAL_v1::derivation_rule *drv;
     opType opt;
     int var;
     PropertyState *enablers;
     PropertyState *lhs;
     PropertyState *rhs;
 
-    vector< VAL::const_symbol * > objects;
+    vector< VAL_v1::const_symbol * > objects;
 
     friend class rulePartitioner;
     friend class RuleObjectIterator;
@@ -436,10 +436,10 @@ namespace TIM {
                    PropertyState *r);
 
    public:
-    TransitionRule(TIMAnalyser *t, VAL::operator_ *o, int v, PropertyState *e,
+    TransitionRule(TIMAnalyser *t, VAL_v1::operator_ *o, int v, PropertyState *e,
                    PropertyState *l, PropertyState *r, opType ty = INSTANT);
 
-    TransitionRule(TIMAnalyser *t, VAL::derivation_rule *o, int v,
+    TransitionRule(TIMAnalyser *t, VAL_v1::derivation_rule *o, int v,
                    PropertyState *e, PropertyState *l, PropertyState *r,
                    opType ty = INSTANT);
 
@@ -461,7 +461,7 @@ namespace TIM {
     RuleObjectIterator endEnabledObjects();
     PropertyState *tryRule(PropertyState *p) { return p->adjust(lhs, rhs); };
     void assembleMutex(TransitionRule *);
-    void assembleMutex(VAL::operator_ *, const mRec &pr);
+    void assembleMutex(VAL_v1::operator_ *, const mRec &pr);
     Property *candidateSplit();
     void recordInAction(PropertySpace *p);
     int paramNum() const { return var; };
@@ -469,7 +469,7 @@ namespace TIM {
     const PropertyState *getLHS() const { return lhs; };
     const PropertyState *getRHS() const { return rhs; };
     const PropertyState *getEnablers() const { return enablers; };
-    const VAL::operator_ *byWhat() const { return op; };
+    const VAL_v1::operator_ *byWhat() const { return op; };
     bool applicableIn(const PropertyState *p) const;
   };
 
@@ -479,8 +479,8 @@ namespace TIM {
 
   struct ProtoRule {
     TIMAnalyser *tan;
-    VAL::operator_ *op;
-    VAL::derivation_rule *drv;
+    VAL_v1::operator_ *op;
+    VAL_v1::derivation_rule *drv;
     opType opt;
     int var;
 
@@ -488,10 +488,10 @@ namespace TIM {
     vector< Property * > adds;
     vector< Property * > dels;
 
-    ProtoRule(TIMAnalyser *t, VAL::operator_ *o, int v, opType ty = INSTANT)
+    ProtoRule(TIMAnalyser *t, VAL_v1::operator_ *o, int v, opType ty = INSTANT)
         : tan(t), op(o), drv(0), opt(ty), var(v){};
 
-    ProtoRule(TIMAnalyser *t, VAL::derivation_rule *o, int v,
+    ProtoRule(TIMAnalyser *t, VAL_v1::derivation_rule *o, int v,
               opType ty = INSTANT)
         : tan(t), op(0), drv(o), opt(ty), var(v){};
 
@@ -539,11 +539,11 @@ namespace TIM {
   // sortObjects.
   inline void sortObjects(PropertySpace *p) { p->sortObjects(); };
 
-  class TIMpred_decl : public VAL::pred_decl {
+  class TIMpred_decl : public VAL_v1::pred_decl {
    public:
     TIMpred_decl() : pred_decl(0, 0, 0){};
-    TIMpred_decl(VAL::pred_symbol *h, VAL::var_symbol_list *a,
-                 VAL::var_symbol_table *vt)
+    TIMpred_decl(VAL_v1::pred_symbol *h, VAL_v1::var_symbol_list *a,
+                 VAL_v1::var_symbol_table *vt)
         : pred_decl(h, a, vt){};
     ~TIMpred_decl() {
       args = 0;
@@ -551,30 +551,30 @@ namespace TIM {
     };
   };
 
-  class DurativeActionPredicateBuilder : public VAL::VisitController {
+  class DurativeActionPredicateBuilder : public VAL_v1::VisitController {
    private:
     bool inserting;
-    vector< VAL::pred_symbol * > toIgnore;
-    VAL::durative_action *replacePreconditionsOf;
+    vector< VAL_v1::pred_symbol * > toIgnore;
+    VAL_v1::durative_action *replacePreconditionsOf;
 
    public:
     DurativeActionPredicateBuilder() : VisitController(), inserting(true){};
-    const vector< VAL::pred_symbol * > &getIgnores() const { return toIgnore; };
+    const vector< VAL_v1::pred_symbol * > &getIgnores() const { return toIgnore; };
 
     void reverse() { inserting = false; };
-    virtual void visit_conj_goal(VAL::conj_goal *cg) {
-      using namespace VAL;
+    virtual void visit_conj_goal(VAL_v1::conj_goal *cg) {
+      using namespace VAL_v1;
 
       replacePreconditionsOf->precondition = cg->getGoals()->front();
       const_cast< goal_list * >(cg->getGoals())->pop_front();
     }
 
-    virtual void visit_timed_goal(VAL::timed_goal *) {
+    virtual void visit_timed_goal(VAL_v1::timed_goal *) {
       replacePreconditionsOf->precondition = 0;
     }
 
-    virtual void visit_durative_action(VAL::durative_action *p) {
-      using namespace VAL;
+    virtual void visit_durative_action(VAL_v1::durative_action *p) {
+      using namespace VAL_v1;
       //		cout << "Treating " << p->name->getName() << "\n";
       if (inserting) {
         pred_symbol *nm =
@@ -618,7 +618,7 @@ namespace TIM {
       };
     };
 
-    virtual void visit_domain(VAL::domain *p) { visit_operator_list(p->ops); };
+    virtual void visit_domain(VAL_v1::domain *p) { visit_operator_list(p->ops); };
   };
 
   struct CheckSV {
@@ -629,7 +629,7 @@ namespace TIM {
     void operator()(PropertySpace *ps) { ps->checkSV(sv); };
   };
 
-  class TIMactionSymbol : public VAL::operator_symbol {
+  class TIMactionSymbol : public VAL_v1::operator_symbol {
    private:
     vector< PropertySpace * > stateChanger;
     vector< TransitionRule * > rules;
@@ -662,11 +662,11 @@ namespace TIM {
 #define TAS(x) static_cast< TIM::TIMactionSymbol * >(x)
 #define TASc(x) static_cast< const TIM::TIMactionSymbol *const >(x)
 
-  class TIMAnalyser : public VAL::VisitController {
+  class TIMAnalyser : public VAL_v1::VisitController {
    private:
-    VAL::TypeChecker &tcheck;
-    VAL::analysis *an;
-    VAL::FuncAnalysis fan;
+    VAL_v1::TypeChecker &tcheck;
+    VAL_v1::analysis *an;
+    VAL_v1::FuncAnalysis fan;
 
     bool adding;
     bool initially;
@@ -676,8 +676,8 @@ namespace TIM {
     bool atStart;
     bool overall;
 
-    VAL::operator_ *op;
-    VAL::derivation_rule *drv;
+    VAL_v1::operator_ *op;
+    VAL_v1::derivation_rule *drv;
     vector< ProtoRule * > rules;
     TRules trules;
     vector< PropertySpace * > propspaces;
@@ -694,7 +694,7 @@ namespace TIM {
     friend class doExamine;
 
    public:
-    TIMAnalyser(VAL::TypeChecker &tc, VAL::analysis *a)
+    TIMAnalyser(VAL_v1::TypeChecker &tc, VAL_v1::analysis *a)
         : tcheck(tc),
           an(a),
           fan(a->func_tab),
@@ -705,50 +705,50 @@ namespace TIM {
           overall(false),
           op(0),
           drv(0){};
-    VAL::TypeChecker &getTC() { return tcheck; };
+    VAL_v1::TypeChecker &getTC() { return tcheck; };
 
     void insertPre(int v, Property *p);
     void insertEff(int v, Property *p);
-    void insertGoal(VAL::parameter_symbol *c, Property *p);
-    void insertInitial(VAL::parameter_symbol *c, Property *p,
-                       VAL::proposition *prp);
+    void insertGoal(VAL_v1::parameter_symbol *c, Property *p);
+    void insertInitial(VAL_v1::parameter_symbol *c, Property *p,
+                       VAL_v1::proposition *prp);
 
-    virtual void visit_simple_goal(VAL::simple_goal *p);
-    virtual void visit_qfied_goal(VAL::qfied_goal *p) {
+    virtual void visit_simple_goal(VAL_v1::simple_goal *p);
+    virtual void visit_qfied_goal(VAL_v1::qfied_goal *p) {
       OUTPUT cout << "Quantified goal\n";
     };
-    virtual void visit_conj_goal(VAL::conj_goal *p) {
+    virtual void visit_conj_goal(VAL_v1::conj_goal *p) {
       p->getGoals()->visit(this);
     };
-    virtual void visit_disj_goal(VAL::disj_goal *p) {
+    virtual void visit_disj_goal(VAL_v1::disj_goal *p) {
       OUTPUT cout << "Disjunctive goal\n";
     };
-    virtual void visit_timed_goal(VAL::timed_goal *p) {
-      using namespace VAL;
+    virtual void visit_timed_goal(VAL_v1::timed_goal *p) {
+      using namespace VAL_v1;
       if (p->getTime() == (atStart ? E_AT_START : E_AT_END) ||
           (overall && p->getTime() == E_OVER_ALL))
         p->getGoal()->visit(this);
     };
-    virtual void visit_imply_goal(VAL::imply_goal *p) {
+    virtual void visit_imply_goal(VAL_v1::imply_goal *p) {
       OUTPUT cout << "Implication goal\n";
     };
-    virtual void visit_neg_goal(VAL::neg_goal *p) {
+    virtual void visit_neg_goal(VAL_v1::neg_goal *p) {
       OUTPUT cout << "Negative goal\n";
     };
-    virtual void visit_simple_effect(VAL::simple_effect *p);
-    virtual void visit_simple_derivation_effect(VAL::derivation_rule *p);
-    virtual void visit_forall_effect(VAL::forall_effect *p) {
+    virtual void visit_simple_effect(VAL_v1::simple_effect *p);
+    virtual void visit_simple_derivation_effect(VAL_v1::derivation_rule *p);
+    virtual void visit_forall_effect(VAL_v1::forall_effect *p) {
       OUTPUT cout << "Quantified effect\n";
     };
-    virtual void visit_cond_effect(VAL::cond_effect *p) {
+    virtual void visit_cond_effect(VAL_v1::cond_effect *p) {
       OUTPUT cout << "Conditional effect\n";
     };
-    virtual void visit_timed_effect(VAL::timed_effect *p) {
-      using namespace VAL;
+    virtual void visit_timed_effect(VAL_v1::timed_effect *p) {
+      using namespace VAL_v1;
       if (p->ts == (atStart ? E_AT_START : E_AT_END)) p->effs->visit(this);
     };
-    virtual void visit_effect_lists(VAL::effect_lists *p) {
-      using namespace VAL;
+    virtual void visit_effect_lists(VAL_v1::effect_lists *p) {
+      using namespace VAL_v1;
       p->add_effects.pc_list< simple_effect * >::visit(this);
       p->forall_effects.pc_list< forall_effect * >::visit(this);
       p->cond_effects.pc_list< cond_effect * >::visit(this);
@@ -758,7 +758,7 @@ namespace TIM {
       p->del_effects.pc_list< simple_effect * >::visit(this);
       adding = whatwas;
     };
-    virtual void visit_derivation_rule(VAL::derivation_rule *p) {
+    virtual void visit_derivation_rule(VAL_v1::derivation_rule *p) {
       drv = p;
       adding = true;
       rules = vector< ProtoRule * >(p->get_head()->args->size(), 0);
@@ -767,7 +767,7 @@ namespace TIM {
       for_each(rules.begin(), rules.end(), processRule(trules));
       drv = 0;
     };
-    virtual void visit_operator_(VAL::operator_ *p) {
+    virtual void visit_operator_(VAL_v1::operator_ *p) {
       op = p;
       adding = true;
       rules = vector< ProtoRule * >(p->parameters->size(), 0);
@@ -776,8 +776,8 @@ namespace TIM {
       for_each(rules.begin(), rules.end(), processRule(trules));
       op = 0;
     };
-    virtual void visit_action(VAL::action *p) { visit_operator_(p); }
-    virtual void visit_durative_action(VAL::durative_action *p) {
+    virtual void visit_action(VAL_v1::action *p) { visit_operator_(p); }
+    virtual void visit_durative_action(VAL_v1::durative_action *p) {
       // I think that we can do this in two stages - the at start and the at
       // end. We can have a filter on timed goals and effects that decides
       // whether it is relevant. Might need to store an optype flag with op, so
@@ -810,12 +810,12 @@ namespace TIM {
       overall = false;
       isDurative = false;
     };
-    virtual void visit_domain(VAL::domain *p) {
+    virtual void visit_domain(VAL_v1::domain *p) {
       visit_operator_list(p->ops);
       if (p->drvs) visit_derivations_list(p->drvs);
       setUpSpaces();
     };
-    virtual void visit_problem(VAL::problem *p) {
+    virtual void visit_problem(VAL_v1::problem *p) {
       initially = true;
       p->initial_state->visit(this);
       initially = false;
@@ -857,7 +857,7 @@ namespace TIM {
                  ptrwriter< PropertySpace >(cout, "\n"));
       };
     };
-    virtual void visit_const_symbol(VAL::const_symbol *p) {
+    virtual void visit_const_symbol(VAL_v1::const_symbol *p) {
       TIMobjectSymbol *t = dynamic_cast< TIMobjectSymbol * >(p);
       t->distributeStates(this);
     };
@@ -865,8 +865,8 @@ namespace TIM {
       for_each(propspaces.begin(), propspaces.end(), CheckSV(singleValued));
     };
 
-    set< PropertySpace * > relevant(VAL::pddl_type *tp);
-    void close(set< Property * > &seed, const VAL::pddl_type *pt);
+    set< PropertySpace * > relevant(VAL_v1::pddl_type *tp);
+    void close(set< Property * > &seed, const VAL_v1::pddl_type *pt);
 
     typedef vector< PropertySpace * >::const_iterator const_iterator;
     const_iterator pbegin() const { return propspaces.begin(); };
@@ -902,7 +902,7 @@ namespace TIM {
 
   class MutexStore {
    private:
-    typedef map< VAL::operator_ *, mutex * > MutexRecord;
+    typedef map< VAL_v1::operator_ *, mutex * > MutexRecord;
     MutexRecord mutexes;
 
     // These are the enablers
@@ -914,7 +914,7 @@ namespace TIM {
    public:
     virtual ~MutexStore(){};
 
-    mutex *getMutex(VAL::operator_ *o);
+    mutex *getMutex(VAL_v1::operator_ *o);
     void showMutexes();
 
     template < class TI >
@@ -932,17 +932,17 @@ namespace TIM {
 
 #define MEX(x) dynamic_cast< TIM::MutexStore * >(x)
 
-  class TIMaction : public VAL::action, public MutexStore {
+  class TIMaction : public VAL_v1::action, public MutexStore {
    public:
-    TIMaction(VAL::operator_symbol *nm, VAL::var_symbol_list *ps,
-              VAL::goal *pre, VAL::effect_lists *effs,
-              VAL::var_symbol_table *st)
+    TIMaction(VAL_v1::operator_symbol *nm, VAL_v1::var_symbol_list *ps,
+              VAL_v1::goal *pre, VAL_v1::effect_lists *effs,
+              VAL_v1::var_symbol_table *st)
         : action(nm, ps, pre, effs, st){};
   };
 
 #define TAc(x) static_cast< TIM::TIMaction * >(x)
 
-  class TIMdurativeAction : public VAL::durative_action, public MutexStore {
+  class TIMdurativeAction : public VAL_v1::durative_action, public MutexStore {
    public:
     bool isFixedDuration() const {
       return static_cast< TIMactionSymbol * >(name)->isFixedDuration();
@@ -951,8 +951,8 @@ namespace TIM {
 
 #define TDA(x) dynamic_cast< TIM::TIMdurativeAction * >(x)
 
-  void showMutex(VAL::operator_ *op);
-  void completeMutexes(VAL::operator_ *op);
+  void showMutex(VAL_v1::operator_ *op);
+  void completeMutexes(VAL_v1::operator_ *op);
 
   /* MUTEX RELATIONSHIPS:
    *
@@ -1014,14 +1014,14 @@ namespace TIM {
 
   class mutex {
    private:
-    VAL::operator_ *op1;
-    VAL::operator_ *op2;
+    VAL_v1::operator_ *op1;
+    VAL_v1::operator_ *op2;
     set< mutRec > argPairs;
 
    public:
-    mutex(VAL::operator_ *o1, VAL::operator_ *o2) : op1(o1), op2(o2){};
+    mutex(VAL_v1::operator_ *o1, VAL_v1::operator_ *o2) : op1(o1), op2(o2){};
 
-    static void constructMutex(VAL::operator_ *o1, int a1, VAL::operator_ *o2,
+    static void constructMutex(VAL_v1::operator_ *o1, int a1, VAL_v1::operator_ *o2,
                                int a2, opType t1 = INSTANT,
                                opType t2 = INSTANT) {
       OUTPUT cout << "Adding a mutex between " << o1->name->getName() << ":"
@@ -1057,7 +1057,7 @@ namespace TIM {
     void write(ostream &o) const;
 
     template < class TI >
-    unsigned int getMutexes(VAL::operator_ *A, TI sa, TI ea, TI sb, TI eb) {
+    unsigned int getMutexes(VAL_v1::operator_ *A, TI sa, TI ea, TI sb, TI eb) {
       unsigned int ms = NONE;
       if (A == op2) {
         TI x = sa;
@@ -1107,37 +1107,37 @@ namespace TIM {
   };
 
   template < class TI >
-  unsigned int getMutexes(VAL::operator_ *A, TI sa, TI ea, VAL::operator_ *B,
+  unsigned int getMutexes(VAL_v1::operator_ *A, TI sa, TI ea, VAL_v1::operator_ *B,
                           TI sb, TI eb) {
     return MEX(A)->getMutex(B)->getMutexes(A, sa, ea, sb, eb);
   };
 
   template < class TI >
-  bool isMutex(const VAL::pred_symbol *pa, TI sa, TI ea,
-               const VAL::pred_symbol *pb, TI sb, TI eb) {
+  bool isMutex(const VAL_v1::pred_symbol *pa, TI sa, TI ea,
+               const VAL_v1::pred_symbol *pb, TI sb, TI eb) {
     return cTPS(pa)->checkMutex(sa, ea, cTPS(pb), sb, eb);
   };
 
   template < class TI >
-  bool selfMutex(const VAL::operator_ *op, TI sa, TI ea) {
-    TIM::MutexStore *tm = MEX(const_cast< VAL::operator_ * >(op));
+  bool selfMutex(const VAL_v1::operator_ *op, TI sa, TI ea) {
+    TIM::MutexStore *tm = MEX(const_cast< VAL_v1::operator_ * >(op));
     if (tm) {
-      return tm->getMutex(const_cast< VAL::operator_ * >(op))
+      return tm->getMutex(const_cast< VAL_v1::operator_ * >(op))
           ->selfMutex(sa, ea);
     } else {
       return false;
     };
   };
 
-  class TIMfactory : public VAL::StructureFactory {
+  class TIMfactory : public VAL_v1::StructureFactory {
    public:
-    virtual VAL::action *buildAction(VAL::operator_symbol *nm,
-                                     VAL::var_symbol_list *ps, VAL::goal *pre,
-                                     VAL::effect_lists *effs,
-                                     VAL::var_symbol_table *st) {
+    virtual VAL_v1::action *buildAction(VAL_v1::operator_symbol *nm,
+                                     VAL_v1::var_symbol_list *ps, VAL_v1::goal *pre,
+                                     VAL_v1::effect_lists *effs,
+                                     VAL_v1::var_symbol_table *st) {
       return new TIMaction(nm, ps, pre, effs, st);
     };
-    virtual VAL::durative_action *buildDurativeAction() {
+    virtual VAL_v1::durative_action *buildDurativeAction() {
       return new TIMdurativeAction();
     };
   };

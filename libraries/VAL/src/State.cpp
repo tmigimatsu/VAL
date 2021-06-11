@@ -17,7 +17,7 @@ using std::stringstream;
 //#define list std::list
 //#define map std::map
 
-namespace VAL {
+namespace VAL_v1 {
 
   vector< StateObserver * > State::sos;
 
@@ -386,4 +386,4 @@ namespace VAL {
     return;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

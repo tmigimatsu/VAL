@@ -15,7 +15,7 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern parse_category *top_thing;
 
@@ -24,14 +24,14 @@ namespace VAL {
 
   extern yyFlexLexer *yfl;
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 extern const char *current_filename;
 
 #include "Utils.h"
 #include "VisitController.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   extern bool Verbose;
 
@@ -171,9 +171,9 @@ namespace VAL {
     };
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
-using namespace VAL;
+using namespace VAL_v1;
 
 /**
  * This expects any number of filenames as arguments, although

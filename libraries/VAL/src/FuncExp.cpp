@@ -13,7 +13,7 @@ using ExternalSupport::LibLoader;
 #endif
 
 //#define map std::map
-namespace VAL {
+namespace VAL_v1 {
 
   bool FuncExp::isExternal() const { return cd != 0; }
 
@@ -101,4 +101,4 @@ namespace VAL {
       delete const_cast< FuncExp * >(i->second);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

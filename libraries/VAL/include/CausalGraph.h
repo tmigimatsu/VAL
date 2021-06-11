@@ -13,7 +13,7 @@ namespace SAS {
 
   class CausalGraph {
    public:
-    typedef pair< const VAL::pddl_type *, int > Var;
+    typedef pair< const VAL_v1::pddl_type *, int > Var;
     typedef std::set< Var > Vars;
     typedef std::map< Var, Vars > Graph;
 

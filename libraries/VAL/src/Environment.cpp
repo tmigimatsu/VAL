@@ -3,7 +3,7 @@
 
 #include "Environment.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   map< Validator *, vector< Environment * > > Environment::copies =
       map< Validator *, vector< Environment * > >();

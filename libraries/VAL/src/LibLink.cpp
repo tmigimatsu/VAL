@@ -16,7 +16,7 @@ extern "C" {
 
 using std::string;
 using std::stringstream;
-using VAL::class_def;
+using VAL_v1::class_def;
 
 namespace ExternalSupport {
 
@@ -59,15 +59,15 @@ namespace ExternalSupport {
       ++myIt;
       return *this;
     };
-    VAL::const_symbol *operator*() {
+    VAL_v1::const_symbol *operator*() {
       // cout << "Extracting value: " << *myIt << "\n";
       // cout << "Plan to return " << *Inst::getConst(*myIt) << "\n";
-      return VAL::current_analysis->const_tab.symbol_get(*myIt);
+      return VAL_v1::current_analysis->const_tab.symbol_get(*myIt);
     };
     bool operator==(const LocIt &i) { return myIt == i.myIt; };
   };
 
-  class ExpEvaluator : public VAL::VisitController {
+  class ExpEvaluator : public VAL_v1::VisitController {
    protected:
     bool undefined;
     double nvalue;  // Used for numeric values.
@@ -75,39 +75,39 @@ namespace ExternalSupport {
    public:
     ExpEvaluator(){};
 
-    virtual void visit_plus_expression(VAL::plus_expression *s);
-    virtual void visit_minus_expression(VAL::minus_expression *s);
-    virtual void visit_mul_expression(VAL::mul_expression *s);
-    virtual void visit_div_expression(VAL::div_expression *s);
-    virtual void visit_uminus_expression(VAL::uminus_expression *s);
-    virtual void visit_int_expression(VAL::int_expression *s);
-    virtual void visit_float_expression(VAL::float_expression *s);
+    virtual void visit_plus_expression(VAL_v1::plus_expression *s);
+    virtual void visit_minus_expression(VAL_v1::minus_expression *s);
+    virtual void visit_mul_expression(VAL_v1::mul_expression *s);
+    virtual void visit_div_expression(VAL_v1::div_expression *s);
+    virtual void visit_uminus_expression(VAL_v1::uminus_expression *s);
+    virtual void visit_int_expression(VAL_v1::int_expression *s);
+    virtual void visit_float_expression(VAL_v1::float_expression *s);
 
     double getValue() { return nvalue; }
   };
 
-  void ExpEvaluator::visit_plus_expression(VAL::plus_expression *s) {
+  void ExpEvaluator::visit_plus_expression(VAL_v1::plus_expression *s) {
     s->getLHS()->visit(this);
     double x = nvalue;
     s->getRHS()->visit(this);
     nvalue += x;
   };
 
-  void ExpEvaluator::visit_minus_expression(VAL::minus_expression *s) {
+  void ExpEvaluator::visit_minus_expression(VAL_v1::minus_expression *s) {
     s->getLHS()->visit(this);
     double x = nvalue;
     s->getRHS()->visit(this);
     nvalue -= x;
   };
 
-  void ExpEvaluator::visit_mul_expression(VAL::mul_expression *s) {
+  void ExpEvaluator::visit_mul_expression(VAL_v1::mul_expression *s) {
     s->getLHS()->visit(this);
     double x = nvalue;
     s->getRHS()->visit(this);
     nvalue *= x;
   };
 
-  void ExpEvaluator::visit_div_expression(VAL::div_expression *s) {
+  void ExpEvaluator::visit_div_expression(VAL_v1::div_expression *s) {
     s->getRHS()->visit(this);
     double x = nvalue;
     s->getLHS()->visit(this);
@@ -116,25 +116,25 @@ namespace ExternalSupport {
     };
   };
 
-  void ExpEvaluator::visit_uminus_expression(VAL::uminus_expression *s) {
+  void ExpEvaluator::visit_uminus_expression(VAL_v1::uminus_expression *s) {
     s->getExpr()->visit(this);
     nvalue = -nvalue;
   };
 
-  void ExpEvaluator::visit_int_expression(VAL::int_expression *s) {
+  void ExpEvaluator::visit_int_expression(VAL_v1::int_expression *s) {
     nvalue = s->double_value();
   };
 
-  void ExpEvaluator::visit_float_expression(VAL::float_expression *s) {
+  void ExpEvaluator::visit_float_expression(VAL_v1::float_expression *s) {
     nvalue = s->double_value();
   };
 
-  bool match(const VAL::func_term *ft, const VAL::func_symbol *fs,
-             const vector< const VAL::const_symbol * > &as) {
+  bool match(const VAL_v1::func_term *ft, const VAL_v1::func_symbol *fs,
+             const vector< const VAL_v1::const_symbol * > &as) {
     if (ft->getFunction() != fs) return false;
 
-    list< VAL::parameter_symbol * >::const_iterator j = ft->getArgs()->begin();
-    for (vector< const VAL::const_symbol * >::const_iterator i = as.begin();
+    list< VAL_v1::parameter_symbol * >::const_iterator j = ft->getArgs()->begin();
+    for (vector< const VAL_v1::const_symbol * >::const_iterator i = as.begin();
          i != as.end(); ++i, ++j) {
       if (*i != *j) return false;
     }
@@ -145,19 +145,19 @@ namespace ExternalSupport {
   // calls
   // yet...
   double getValueInState(const char *args[], int n) {
-    const VAL::func_symbol *fs =
-        VAL::current_analysis->func_tab.symbol_get(args[0]);
+    const VAL_v1::func_symbol *fs =
+        VAL_v1::current_analysis->func_tab.symbol_get(args[0]);
 
-    vector< const VAL::const_symbol * > as;
+    vector< const VAL_v1::const_symbol * > as;
 
     for (int i = 1; i < n; ++i) {
-      as.push_back(VAL::current_analysis->const_tab.symbol_get(args[i]));
+      as.push_back(VAL_v1::current_analysis->const_tab.symbol_get(args[i]));
     }
 
-    for (VAL::pc_list< VAL::assignment * >::const_iterator i =
-             VAL::current_analysis->the_problem->initial_state->assign_effects
+    for (VAL_v1::pc_list< VAL_v1::assignment * >::const_iterator i =
+             VAL_v1::current_analysis->the_problem->initial_state->assign_effects
                  .begin();
-         i != VAL::current_analysis->the_problem->initial_state->assign_effects
+         i != VAL_v1::current_analysis->the_problem->initial_state->assign_effects
                   .end();
          ++i) {
       if (match((*i)->getFTerm(), fs, as)) {
@@ -167,7 +167,7 @@ namespace ExternalSupport {
         return eexp.getValue();
       }
     }
-    throw VAL::BadAccessError();
+    throw VAL_v1::BadAccessError();
   }
 
   // Pass in state for a context...

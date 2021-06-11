@@ -3,7 +3,7 @@
 
 #include "TypedAnalyser.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   ostream &operator<<(ostream &o, const SimplePropStore *sp) {
     sp->write(o);
@@ -240,4 +240,4 @@ namespace VAL {
     return 0;
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

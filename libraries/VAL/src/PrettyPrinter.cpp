@@ -14,7 +14,7 @@ using std::for_each;
 using std::set;
 
 //#define set std::set
-namespace VAL {
+namespace VAL_v1 {
 
   void PrettyPrinter::write_symbol(ostream &o, const symbol *p) {
     o << p->getName();
@@ -621,4 +621,4 @@ namespace VAL {
   };
   */
 
-};  // namespace VAL
+};  // namespace VAL_v1

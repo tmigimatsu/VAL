@@ -6,7 +6,7 @@
 #include "instantiation.h"
 #include "typecheck.h"
 
-using namespace VAL;
+using namespace VAL_v1;
 
 namespace Inst {
 
@@ -91,7 +91,7 @@ namespace Inst {
     unknownFalse = true;
   };
 
-  bool partialMatch(const VAL::const_symbol *x, const VAL::const_symbol *y) {
+  bool partialMatch(const VAL_v1::const_symbol *x, const VAL_v1::const_symbol *y) {
     return x == y || x == 0 || y == 0;
   };
 
@@ -138,13 +138,13 @@ namespace Inst {
   };
 
   void SimpleEvaluator::visit_qfied_goal(qfied_goal *p) {
-    vector< vector< VAL::const_symbol * >::const_iterator > vals(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > vals(
         p->getVars()->size());
-    vector< vector< VAL::const_symbol * >::const_iterator > starts(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > starts(
         p->getVars()->size());
-    vector< vector< VAL::const_symbol * >::const_iterator > ends(
+    vector< vector< VAL_v1::const_symbol * >::const_iterator > ends(
         p->getVars()->size());
-    vector< VAL::var_symbol * > vars(p->getVars()->size());
+    vector< VAL_v1::var_symbol * > vars(p->getVars()->size());
     FastEnvironment fe(*f);
     fe.extend(vars.size());
     int i = 0;
@@ -163,7 +163,7 @@ namespace Inst {
       c *= instantiatedOp::getValues()[(*pi)->type].size();
     };
 
-    valueTrue = (p->getQuantifier() == VAL::E_FORALL);
+    valueTrue = (p->getQuantifier() == VAL_v1::E_FORALL);
     valueFalse = !valueTrue;
     unknownTrue = false;
     unknownFalse = false;
@@ -183,7 +183,7 @@ namespace Inst {
       f = &toPass;
       p->getGoal()->visit(this);
 
-      if (p->getQuantifier() == VAL::E_FORALL) {
+      if (p->getQuantifier() == VAL_v1::E_FORALL) {
         ;
         if (reallyFalse()) {
           if (SimpleEvaluator::verbose)

@@ -7,7 +7,7 @@
 #include "ptree.h"
 #include <map>
 
-namespace VAL {
+namespace VAL_v1 {
 
   class Validator;
   class Action;
@@ -42,6 +42,6 @@ namespace VAL {
                            const expression *e, const Environment &bs);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

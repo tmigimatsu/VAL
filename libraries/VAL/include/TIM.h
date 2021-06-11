@@ -6,7 +6,7 @@
 
 #include "TimSupport.h"
 
-namespace VAL {
+namespace VAL_v1 {
   extern TypeChecker *theTC;
 };
 

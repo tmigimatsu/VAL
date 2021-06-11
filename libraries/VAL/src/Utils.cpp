@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-namespace VAL {
+namespace VAL_v1 {
 
   void replaceSubStrings(string &s, string s1, string s2) {
     size_t pos = s.find(s1);
@@ -29,4 +29,4 @@ namespace VAL {
   // change any action names etc that LaTeX will not like
   void latexString(string &s) { replaceSubStrings(s, "_", "\\_"); };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -8,7 +8,7 @@
 #include "ptree.h"
 #include <set>
 
-namespace VAL {
+namespace VAL_v1 {
 
   class State;
   class Validator;
@@ -193,6 +193,6 @@ namespace VAL {
     bool checkFinalState(const State &s);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1
 
 #endif

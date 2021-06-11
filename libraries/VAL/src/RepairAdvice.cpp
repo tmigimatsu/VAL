@@ -5,7 +5,7 @@
 #include "Utils.h"
 #include "Validator.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   shared_ptr< UnsatConditionFactory > ErrorLog::fac(new UnsatConditionFactory);
 
@@ -214,4 +214,4 @@ namespace VAL {
     conditions.push_back(inv);
   };
 
-};  // namespace VAL
+};  // namespace VAL_v1

@@ -4,7 +4,7 @@
 #include "HowAnalyser.h"
 #include "AbstractGraph.h"
 
-namespace VAL {
+namespace VAL_v1 {
 
   HowAnalyser::HowAnalyser() : VisitController(), ag(new AbstractGraph()){};
 
@@ -24,4 +24,4 @@ namespace VAL {
 
   void HowAnalyser::completeGraph() { ag->develop(); };
 
-};  // namespace VAL
+};  // namespace VAL_v1
